@@ -1,71 +1,39 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Icon, Input, Button, Image } from "react-native-elements";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, Image } from "react-native-elements";
+import styles from "../assets/styles/main";
 
-function Login({ navigation }) {
+export default function Login({ navigation }) {
   return (
-    <View
-      style={style.principal}
-    >
+    <View style={styles.principal}>
       <View>
         <Image
-          source={require('../assets/logo.jpg')}
-          style={{ width: 300, height: 100 }}
+          source={require("../assets/logo.jpg")}
+          style={styles.logoImage}
         />
       </View>
-      <View style={{ height: 150, width: 300, paddingTop: 10 }}>
-        <View style={{ flexDirection: "row" }}>
+      <View style={styles.groupHomeButtons}>
+        <View style={styles.fRowSpaceAround}>
           <Button
             title="Entrar"
-            buttonStyle={{
-              borderColor: "#f5f4f4",
-              backgroundColor: "#f4f4f4",
-              borderRadius: 3,
-            }}
-            containerStyle={{
-              width: 100,
-              marginHorizontal: 10,
-              marginVertical: 10,
-              marginLeft: 40,
-            }}
-            titleStyle={{ color: "grey" }}
-            onPress={() => navigation.navigate('Login',
-              {
+            buttonStyle={styles.homeButton}
+            containerStyle={styles.width100}
+            titleStyle={styles.grey}
+            onPress={() =>
+              navigation.navigate("Login", {
                 error: false,
-              }
-            )}
+              })
+            }
           />
           <Button
             title="Cadastrar"
-            buttonStyle={{
-              backgroundColor: "#f4f4f4",
-              borderRadius: 3,
-            }}
-            containerStyle={{
-              width: 100,
-              marginHorizontal: 10,
-              marginVertical: 10,
-            }}
-            titleStyle={{ color: "grey" }}
-            onPress={() => navigation.navigate('Register')}
+            buttonStyle={styles.homeButton}
+            containerStyle={styles.width100}
+            titleStyle={styles.grey}
+            onPress={() => navigation.navigate("Register")}
           />
         </View>
       </View>
-      <View style={{ backgroundColor: "aqua", alignItems: "center" }}></View>
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  principal: {
-    flex: 1,
-    flexDirection: "collumn",
-    backgroundColor: "#1f1c32",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: 100,
-  },
-});
-
-
-export default Login;
