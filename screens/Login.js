@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import { Input, Button, Image } from "react-native-elements";
+import { Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 
 const users = [
@@ -8,20 +8,25 @@ const users = [
     { login: "root", pw: "root" },
 ];
 
-function Login({ route, navigation }) {
-    const { error } = route.params;
+function Login({navigation }) {
+    const [isOpenDialog, setDialogOpen] = useState(false);
     const [login, setLogin] = useState("");
     const [pw, setPw] = useState("");
 
+    const toggleDialog = () => {
+        setDialogOpen(!isOpenDialog);
+    };
+
+    const CheckPw = (login, pw, navigation) => {
+        if (users.some(u => u.login === login && u.pw == pw)) {
+            navigation.navigate("Home");
+        }else{
+            toggleDialog();
+        }
+    }
+
     return (
         <View style={[styles.principal, styles.pb100]}>
-            <View style={error ? styles.loginError : styles.dNone}>
-                {error == true ? (
-                    <Text style={styles.fontBold}>ERRO DE LOGIN</Text>
-                ) : (
-                    <Text></Text>
-                )}
-            </View>
             <View>
                 <Image
                     source={require("../assets/logo.jpg")}
@@ -31,11 +36,18 @@ function Login({ route, navigation }) {
             <View style={styles.formLogin}>
                 <Input style={styles.white} placeholder="E-mail" onChangeText={(login) => setLogin(login)} />
                 <Input
-                    style={[styles.mt10,styles.white]}
+                    style={[styles.mt10, styles.white]}
                     placeholder="Senha"
                     secureTextEntry={true}
                     onChangeText={(pw) => setPw(pw)}
                 />
+                <Dialog
+                    isVisible={isOpenDialog}
+                    onBackdropPress={toggleDialog}
+                >
+                    <Dialog.Title title="Erro de Login" />
+                    <Text>E-mail ou senha incorreto.</Text>
+                </Dialog>
                 <View
                     style={{
                         flexDirection: "row",
@@ -63,15 +75,6 @@ function Login({ route, navigation }) {
     );
 }
 
-function CheckPw(login, pw, navigation) {
-    users.forEach((user) => {
-        if (user.login == login && user.pw == pw) {
-            navigation.navigate("Home");
-        } else {
 
-            navigation.navigate("Login", { error: true });
-        }
-    });
-}
 
 export default Login;

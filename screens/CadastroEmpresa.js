@@ -45,7 +45,6 @@ export default function CadastroEmpresa({ navigation }) {
         }
         Object.keys(inputs).forEach(function (input) {
             if (!inputs[input]) {
-                console.log('teste')
                 error = true;
                 gerarError('* Campo obrigatório', input)
             }
@@ -58,7 +57,6 @@ export default function CadastroEmpresa({ navigation }) {
             //FETCH 
             // navigation.navigate("Home")
         }
-        console.log(errors)
     }
 
     return (
