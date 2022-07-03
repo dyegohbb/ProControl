@@ -3,6 +3,7 @@ import { Keyboard, ScrollView } from "react-native";
 import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
+import Axios from "axios";
 
 
 const codigoDeCadastro = "_PL<MNBVCXZ1q2w3e!"
@@ -36,10 +37,10 @@ export default function CadastroEmpresa({ navigation }) {
         setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
     };
 
-    const validar = (navigation) => {
+    async function validar(navigation) {
         Keyboard.dismiss();
         let error = false;
-        if(!cod){
+        if (!cod) {
             error = true
             gerarError('* Campo obrigatório', 'cod')
         }
@@ -54,15 +55,26 @@ export default function CadastroEmpresa({ navigation }) {
                 setErrors({});
                 toggleDialog();
             }
+
+            await Axios.post("http://localhost:8080/criarEmpresa", inputs)
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             //FETCH 
             // navigation.navigate("Home")
         }
+    }
+    const validar = (navigation) => {
+
     }
 
     return (
         <ScrollView>
             <View style={styles.principal}>
-                <View style={{marginTop: 40}}>
+                <View style={{ marginTop: 40 }}>
                     <Image
                         source={require("../assets/logo.jpg")}
                         style={styles.logoImage}
