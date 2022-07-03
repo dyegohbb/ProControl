@@ -10,7 +10,8 @@ const codigoDeCadastro = "_PL<MNBVCXZ1q2w3e!"
 
 export default function CadastroEmpresa({ navigation }) {
     const [isOpenDialog, setDialogOpen] = useState(false);
-
+    const [dialogTitle, setDialogTitle] = useState('');
+    const [dialogText, setDialogText] = useState('');
     const [cod, setCod] = useState('');
     const [inputs, setInputs] = useState({
         cnpj: '',
@@ -21,9 +22,7 @@ export default function CadastroEmpresa({ navigation }) {
         end: '',
         representante: '',
     });
-    const [errors, setErrors] = React.useState({
-        cnpj: '',
-    });
+    const [errors, setErrors] = useState({});
 
     const toggleDialog = () => {
         setDialogOpen(!isOpenDialog);
@@ -53,22 +52,22 @@ export default function CadastroEmpresa({ navigation }) {
         if (!error) {
             if (codigoDeCadastro != cod) {
                 setErrors({});
+                setDialogTitle('Codigo de cadastro')
+                setDialogText('É necessário um código válido para estar completando o cadastro, solicite o código a um administrador do sistema.')
                 toggleDialog();
-            }
-
-            await Axios.post("http://localhost:8080/criarEmpresa", inputs)
+            }else{
+                await Axios.post("http://localhost:8080/criarEmpresa", inputs)
                 .then((response) => {
                     console.log(response)
                 })
                 .catch((error) => {
+                    setDialogTitle('Erro')
+                    setDialogText('OOPS! Ocorreu algum erro ao cadastrar empresa, entre em contato com um administrador do sistema.')
+                    toggleDialog();
                     console.log(error);
                 });
-            //FETCH 
-            // navigation.navigate("Home")
+            }
         }
-    }
-    const validar = (navigation) => {
-
     }
 
     return (
@@ -93,8 +92,8 @@ export default function CadastroEmpresa({ navigation }) {
                         isVisible={isOpenDialog}
                         onBackdropPress={toggleDialog}
                     >
-                        <Dialog.Title title="Codigo de cadastro" />
-                        <Text>É necessário um código válido para estar completando o cadastro, solicite o código a um administrador do sistema.</Text>
+                        <Dialog.Title title= {dialogTitle} />
+                        <Text>{dialogText}</Text>
                     </Dialog>
                     <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
                         <Button

@@ -12,7 +12,6 @@ export default function CadastroPromotor({ navigation }) {
         email: '',
         cep: '',
         end: '',
-        representante: '',
     });
     const [errors, setErrors] = React.useState({
         cnpj: '',
