@@ -9,6 +9,21 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 
+    listaDeEventos:{
+        flexDirection: "column",
+        backgroundColor: "#1f1c32",
+    },
+
+    logoText:{
+        fontSize: 24,
+        fontWeight: 600,
+        marginTop: -8,
+    },
+
+    noMarginBottom:{
+        marginBottom: 0,
+    },
+
     width100: {
         width: 100,
     },

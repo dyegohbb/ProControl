@@ -35,9 +35,9 @@ export default function ListaDeEventos({ route, navigation }) {
 
       listarEventos(credentials);
     } else {
-      setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
-      setDialogTitle("Problemas no carregamento")
-      toggleDialog();
+      // setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
+      // setDialogTitle("Problemas no carregamento")
+      // toggleDialog();
     }
 
 
@@ -48,14 +48,15 @@ export default function ListaDeEventos({ route, navigation }) {
   };
 
   return (
-    <View style={styles.principal}>
-      <View>
+    <View style={styles.listaDeEventos}>
+      <View style={{alignItems: "center" }}>
         <Image
           source={require("../assets/logo.jpg")}
           style={styles.logoImage}
         />
+        <Text style={[styles.white, styles.logoText]}>Lista de eventos</Text>
       </View>
-      <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
+      <View style={{backgroundColor: "green", flexDirection: "row" }}>
         <Button
           title="ASDASDASD"
           buttonStyle={styles.homeButton}

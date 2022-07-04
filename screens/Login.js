@@ -46,7 +46,7 @@ function Login({ navigation }) {
                     navigation.navigate("ListaDeEventos", {credentials})
                 })
                 .catch((error) => {
-                    toggleDialog();
+                    // toggleDialog();
                     //remover abaixo, apenas mock
                     let credentials = {
                         login: inputs.login,
