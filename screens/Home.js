@@ -19,9 +19,7 @@ export default function Home({ navigation }) {
           containerStyle={styles.width100}
           titleStyle={styles.grey}
           onPress={() =>
-            navigation.navigate("Login", {
-              error: false,
-            })
+            navigation.navigate("Login")
           }
         />
         <Button

@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Keyboard } from "react-native";
 import { View } from "react-native";
-import { Input, Button, Image } from "react-native-elements";
+import { Input, Button, Image, Dialog, Text } from "react-native-elements";
 import styles from "../assets/styles/main";
+import Axios from "axios";
 
-export default function CadastroPromotor({ navigation }) {
+export default function CadastroPromotor({ route, navigation }) {
+    const [isOpenDialog, setDialogOpen] = useState(false);
+    const [dialogTitle, setDialogTitle] = useState('');
+    const [dialogText, setDialogText] = useState('');
     const [inputs, setInputs] = useState({
         cpf: '',
         nome: '',
@@ -13,9 +17,11 @@ export default function CadastroPromotor({ navigation }) {
         cep: '',
         end: '',
     });
-    const [errors, setErrors] = React.useState({
-        cnpj: '',
-    });
+    const [errors, setErrors] = React.useState({});
+
+    const toggleDialog = () => {
+        setDialogOpen(!isOpenDialog);
+    };
 
     const OnChangeInput = (text, input) => {
         setInputs(prevState => ({ ...prevState, [input]: text }))
@@ -25,7 +31,7 @@ export default function CadastroPromotor({ navigation }) {
         setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
     };
 
-    const validar = (navigation) => {
+    async function validar(navigation) {
         Keyboard.dismiss();
         let error = false;
         Object.keys(inputs).forEach(function (input) {
@@ -35,8 +41,16 @@ export default function CadastroPromotor({ navigation }) {
             }
         })
         if (!error) {
-            //FETCH 
-            navigation.navigate("Home")
+            await Axios.post("http://localhost:8080/criarPromotor", inputs)
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((error) => {
+                    setDialogTitle('Erro')
+                    setDialogText('OOPS! Ocorreu algum erro ao cadastrar promotor, entre em contato com um administrador do sistema.')
+                    toggleDialog();
+                    console.log(error);
+                });
         }
     }
 
@@ -49,13 +63,19 @@ export default function CadastroPromotor({ navigation }) {
                 />
             </View>
             <View style={[styles.formLogin]}>
-                <Input style={[styles.mt10, styles.white]} errorMessage={errors.cnpj} placeholder="CNPJ" onChangeText={text => OnChangeInput(text, 'cnpj')} />
-                <Input style={[styles.mt10, styles.white]} errorMessage={errors.razao} placeholder="Razão Social" onChangeText={text => OnChangeInput(text, 'razao')} />
+                <Input style={[styles.mt10, styles.white]} errorMessage={errors.cpf} placeholder="CPF" onChangeText={text => OnChangeInput(text, 'cpf')} />
+                <Input style={[styles.mt10, styles.white]} errorMessage={errors.nome} placeholder="Nome" onChangeText={text => OnChangeInput(text, 'nome')} />
                 <Input style={[styles.mt10, styles.white]} errorMessage={errors.telefone} placeholder="Telefone" onChangeText={text => OnChangeInput(text, 'telefone')} />
                 <Input style={[styles.mt10, styles.white]} errorMessage={errors.email} placeholder="Email" onChangeText={text => OnChangeInput(text, 'email')} />
                 <Input style={[styles.mt10, styles.white]} errorMessage={errors.cep} placeholder="CEP" onChangeText={text => OnChangeInput(text, 'cep')} />
                 <Input style={[styles.mt10, styles.white]} errorMessage={errors.end} placeholder="Endereço" onChangeText={text => OnChangeInput(text, 'end')} />
-                <Input style={[styles.mt10, styles.white]} errorMessage={errors.representante} placeholder="Representante" onChangeText={text => OnChangeInput(text, 'representante')} />
+                <Dialog
+                    isVisible={isOpenDialog}
+                    onBackdropPress={toggleDialog}
+                >
+                    <Dialog.Title title={dialogTitle} />
+                    <Text>{dialogText}</Text>
+                </Dialog>
                 <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
                     <Button
                         style={styles.mt25}

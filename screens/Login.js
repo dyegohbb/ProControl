@@ -24,15 +24,6 @@ function Login({ navigation }) {
         setDialogOpen(!isOpenDialog);
     };
 
-    const getAxiosConfig = () => {
-        let axiosConfig = {
-            headers: {
-                'token': token,
-            }
-        };
-        return axiosConfig;
-    }
-
     async function CheckPw(inputs, navigation) {
         let error = false;
         Object.keys(inputs).forEach(function (input) {
@@ -48,12 +39,21 @@ function Login({ navigation }) {
                 password: inputs.pw,
             })
                 .then((response) => {
-                    //response = token (string igual a de baixo)
-                    var token2 = "_PL<MNBVCXZ1q2w3e!";
-                    navigation.navigate("ListaDeEventos", inputs.login, token2)
+                    let credentials = {
+                        login: inputs.login,
+                        token: response
+                    }
+                    navigation.navigate("ListaDeEventos", {credentials})
                 })
                 .catch((error) => {
                     toggleDialog();
+                    //remover abaixo, apenas mock
+                    let credentials = {
+                        login: inputs.login,
+                        token: "_PL<MNBVCXZ1q2w3e!"
+                    }
+                    navigation.navigate("ListaDeEventos", {credentials})
+                    
                 });
         }
     }

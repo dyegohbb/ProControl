@@ -5,6 +5,7 @@ import HomeScreen from "./screens/Home";
 import LoginScreen from "./screens/Login";
 import CadastroEmpresa from "./screens/CadastroEmpresa";
 import CadastroPromotor from "./screens/CadastroPromotor.js";
+import ListaDeEventos from "./screens/ListaDeEventos.js";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,11 @@ function App() {
         <Stack.Screen
           name="CadastroPromotor"
           component={CadastroPromotor}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ListaDeEventos"
+          component={ListaDeEventos}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
