@@ -48,26 +48,12 @@ function Login({ navigation }) {
                 password: inputs.pw,
             })
                 .then((response) => {
-                    var token = response;
-                    Axios.get("http://localhost:8080/getEmpresa", { login: inputs.login }, getAxiosConfig())
-                        .then((res) => {
-                            navigation.navigate("ListaDeEventos", res, token)
-                        })
+                    //response = token (string igual a de baixo)
+                    var token2 = "_PL<MNBVCXZ1q2w3e!";
+                    navigation.navigate("ListaDeEventos", inputs.login, token2)
                 })
                 .catch((error) => {
-                    //REMOVER COMENTÁRIO (APENAS MOCK)
-                    // toggleDialog();
-                    let response = {
-                        cnpj: '74.473.067/0001-80',
-                        razao: 'Top Taylor Industria e Comercio LTDA',
-                        telefone: '1131336700',
-                        email: 'mara@cbandeirantes.com.br',
-                        cep: '06268110',
-                        end: 'AV Lourenco Belloli N 901, Parque Industrial Mazzei, Osasco - SP ',
-                        representante: 'RICARDO TETUYA FUJIHARA',
-                    }
-                    let token2 = "_PL<MNBVCXZ1q2w3e!"
-                    navigation.navigate("ListaDeEventos", response, token2)
+                    toggleDialog();
                 });
         }
     }
