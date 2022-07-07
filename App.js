@@ -6,13 +6,14 @@ import LoginScreen from "./screens/Login";
 import CadastroEmpresa from "./screens/CadastroEmpresa";
 import CadastroPromotor from "./screens/CadastroPromotor.js";
 import ListaDeEventos from "./screens/ListaDeEventos.js";
+import Evento from "./screens/Evento"
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="ListaDeEventos">
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -36,6 +37,11 @@ function App() {
         <Stack.Screen
           name="ListaDeEventos"
           component={ListaDeEventos}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Evento"
+          component={Evento}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

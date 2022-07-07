@@ -75,7 +75,7 @@ export default function CadastroEmpresa({ navigation }) {
             <View style={styles.principal}>
                 <View style={{ marginTop: 40 }}>
                     <Image
-                        source={require("../assets/logo.jpg")}
+                        source={require("../assets/img/logo.jpg")}
                         style={styles.logoImage}
                     />
                 </View>

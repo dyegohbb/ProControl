@@ -8,7 +8,7 @@ export default function Home({ navigation }) {
     <View style={styles.principal}>
       <View>
         <Image
-          source={require("../assets/logo.jpg")}
+          source={require("../assets/img/logo.jpg")}
           style={styles.logoImage}
         />
       </View>

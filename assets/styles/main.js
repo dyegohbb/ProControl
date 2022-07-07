@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 const styles = StyleSheet.create({
     principal: {
@@ -10,14 +10,17 @@ const styles = StyleSheet.create({
     },
 
     listaDeEventos:{
+        marginTop: 10,
+        flex: 1,
         flexDirection: "column",
         backgroundColor: "#1f1c32",
     },
 
     logoText:{
         fontSize: 24,
-        fontWeight: 600,
+        fontWeight: "600",
         marginTop: -8,
+        marginBottom: 10,
     },
 
     noMarginBottom:{
@@ -31,6 +34,11 @@ const styles = StyleSheet.create({
     logoImage: {
         width: 300,
         height: 100,
+    },
+
+    eventoLogo: {
+        width: 300,
+        height: 130,
     },
 
     homeButton: {
@@ -86,7 +94,7 @@ const styles = StyleSheet.create({
     },
 
     fontBold: {
-        fontWeight: 500,
+        fontWeight: "500",
     },
 
     dNone: {

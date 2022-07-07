@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
-import { Button, Image, Dialog, Text } from "react-native-elements";
+import { View, ScrollView } from "react-native";
+import { Button, Image, Dialog, Text, Icon } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
 
@@ -19,7 +19,7 @@ export default function ListaDeEventos({ route, navigation }) {
         login: credentials.login,
       }, {
         headers: {
-            'token': credentials.token,
+          'token': credentials.token,
         }
       })
         .then((response) => {
@@ -49,33 +49,50 @@ export default function ListaDeEventos({ route, navigation }) {
 
   return (
     <View style={styles.listaDeEventos}>
-      <View style={{alignItems: "center" }}>
+      <View style={{ alignItems: "center", marginTop: 20 }}>
         <Image
-          source={require("../assets/logo.jpg")}
+          source={require("../assets/img/logo.jpg")}
           style={styles.logoImage}
         />
         <Text style={[styles.white, styles.logoText]}>Lista de eventos</Text>
       </View>
-      <View style={{backgroundColor: "green", flexDirection: "row" }}>
-        <Button
-          title="ASDASDASD"
-          buttonStyle={styles.homeButton}
-          containerStyle={styles.width100}
-          titleStyle={styles.grey}
-          onPress={() =>
-            navigation.navigate("Login", {
-              error: false,
-            })
-          }
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Icon
+          color="white"
+          containerStyle={{ marginStart: 20 }}
+          disabledStyle={{}}
+          iconProps={{}}
+          iconStyle={{}}
+          name="account-multiple-plus"
+          onLongPress={() => console.log("onLongPress()")}
+          onPress={() => console.log("onPress()")}
+          size={35}
+          type="material-community"
         />
-        <Button
-          title="ASDASD"
-          buttonStyle={styles.homeButton}
-          containerStyle={styles.width100}
-          titleStyle={styles.grey}
-          onPress={() => navigation.navigate("CadastroPromotor")}
+        <Icon
+          color="white"
+          containerStyle={{ marginEnd: 20 }}
+          disabledStyle={{}}
+          iconProps={{}}
+          iconStyle={{}}
+          name="calendar-plus"
+          onLongPress={() => console.log("onLongPress()")}
+          onPress={() => console.log("onPress()")}
+          size={35}
+          type="material-community"
         />
       </View>
+      <ScrollView style={{ marginHorizontal: 20, marginTop: 12 }}>
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={require("../assets/img/hiper.jpg")}
+            style={styles.eventoLogo}
+          />
+          <Text style={{ fontSize: 45 }}>
+            PROCONTROL
+          </Text>
+        </View>
+      </ScrollView>
       <Dialog
         isVisible={isOpenDialog}
         onBackdropPress={toggleDialog}

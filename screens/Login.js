@@ -62,7 +62,7 @@ function Login({ navigation }) {
         <View style={[styles.principal, styles.pb100]}>
             <View>
                 <Image
-                    source={require("../assets/logo.jpg")}
+                    source={require("../assets/img/logo.jpg")}
                     style={styles.logoImage}
                 />
             </View>
