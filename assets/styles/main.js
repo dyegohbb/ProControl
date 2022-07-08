@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
 
     mt10: { marginTop: 10 },
 
+    mt4: { marginTop: 4 },
+
     mt25: { marginTop: 25 },
 
     fontBold: { fontWeight: "500" },
@@ -111,8 +113,8 @@ const styles = StyleSheet.create({
 
     eventScrollBody: {
         marginVertical: 10,
-        marginHorizontal: 15,
-        marginTop: 15
+        marginHorizontal: 20,
+        marginTop: 0
     },
 
 });

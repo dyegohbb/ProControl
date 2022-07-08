@@ -2,7 +2,59 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { Button, Image, Dialog, Text, Icon } from "react-native-elements";
 import styles from "../assets/styles/main";
+import FloatingButton from "../FloatingButton";
 import Axios from "axios";
+
+
+const eventos = [{
+  id: 1,
+  titulo: "Extra - Jaboatão dos guararapes",
+  data: "21/08/2022",
+  imgUrl: require("../assets/img/hiper.jpg"),
+  rua: "",
+  numero: "",
+  complemento: "",
+  bairro: "",
+  cidade: "",
+  estado: "",
+},
+{
+  id: 2,
+  titulo: "Assaí - Abreu e Lima",
+  data: "22/08/2022",
+  imgUrl: require("../assets/img/assai.jpeg"),
+  rua: "",
+  numero: "",
+  complemento: "",
+  bairro: "",
+  cidade: "",
+  estado: "",
+},
+{
+  id: 3,
+  titulo: "Carrefour - Ibura",
+  data: "23/08/2022",
+  imgUrl: require("../assets/img/carrefour.jpg"),
+  rua: "",
+  numero: "",
+  complemento: "",
+  bairro: "",
+  cidade: "",
+  estado: "",
+},
+{
+  id: 4,
+  titulo: "Americanas - Shopping Patteo",
+  data: "23/08/2022",
+  imgUrl: require("../assets/img/americanas.jpg"),
+  rua: "",
+  numero: "",
+  complemento: "",
+  bairro: "",
+  cidade: "",
+  estado: "",
+}];
+
 
 export default function ListaDeEventos({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
@@ -10,7 +62,7 @@ export default function ListaDeEventos({ route, navigation }) {
   const [dialogText, setDialogText] = useState("");
   const [cred, setCred] = useState({});
 
-  
+
   const onPress = () => {
     console.log("amigo estou aqui");
   };
@@ -54,6 +106,14 @@ export default function ListaDeEventos({ route, navigation }) {
 
   return (
     <View style={styles.listaDeEventos}>
+      <View style={{ zIndex: 1 }}>
+        <FloatingButton
+          onPressFacebook={() => alert('facebook icon pressed')}
+          onPressTwitter={() => alert('Twitter icon pressed')}
+          onPressInstagram={() => alert('instagram icon pressed')}
+          position={{ top: 140, right: 30 }}
+        />
+      </View>
       <View style={[styles.alignItemsCenter, styles.mt25]}>
         <Image
           source={require("../assets/img/logo.jpg")}
@@ -61,11 +121,11 @@ export default function ListaDeEventos({ route, navigation }) {
         />
         <Text style={[styles.white, styles.logoText]}>Lista de eventos</Text>
       </View>
-      <View style={styles.fRowSpaceBtw}>
+      <View style={[styles.fRowSpaceBtw, styles.mt10]}>
         <Icon
           color="white"
           containerStyle={styles.mStart20}
-          name="account-multiple-plus"
+          name="calendar-plus"
           onLongPress={() => console.log("onLongPress()")}
           onPress={() => console.log("onPress()")}
           size={35}
@@ -74,7 +134,16 @@ export default function ListaDeEventos({ route, navigation }) {
         <Icon
           color="white"
           containerStyle={styles.mEnd20}
-          name="calendar-plus"
+          name="refresh"
+          onLongPress={() => console.log("onLongPress()")}
+          onPress={() => console.log("onPress()")}
+          size={35}
+          type="material-community"
+        />
+        <Icon
+          color="white"
+          containerStyle={styles.mEnd20}
+          name="account-multiple-plus"
           onLongPress={() => console.log("onLongPress()")}
           onPress={() => console.log("onPress()")}
           size={35}
@@ -82,62 +151,18 @@ export default function ListaDeEventos({ route, navigation }) {
         />
       </View>
       <ScrollView style={styles.eventScrollBody}>
-        <TouchableOpacity
-          style={[styles.eventCard, styles.mb20]}
-          onPress={onPress}
-        >
-          <Text style={[styles.white, styles.fontSize20]}>
-            Extra - Jaboatão dos guararapes
-          </Text>
-          <Image
-            source={require("../assets/img/hiper.jpg")}
-            style={styles.eventoLogo}
-          />
-          <Text style={[styles.white, styles.fontSize20]}>21/08/2022</Text>
-        </TouchableOpacity>
+        <View style={[styles.alignItemsCenter, styles.mb20]}>
 
-        <TouchableOpacity
-          style={[styles.eventCard, styles.mb20]}
-          onPress={onPress}
-        >
-          <Text style={[styles.white, styles.fontSize20]}>
-            Assaí - Abreu e Lima
-          </Text>
-          <Image
-            source={require("../assets/img/assai.jpeg")}
-            style={styles.eventoLogo}
-          />
-          <Text style={[styles.white, styles.fontSize20]}>22/08/2022</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.eventCard, styles.mb20]}
-          onPress={onPress}
-        >
-          <Text style={[styles.white, styles.fontSize20]}>
-            Carrefour - Ibura
-          </Text>
-          <Image
-            source={require("../assets/img/carrefour.jpg")}
-            style={styles.eventoLogo}
-          />
-          <Text style={[styles.white, styles.fontSize20]}>23/08/2022</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.eventCard, styles.mb20]}
-          onPress={onPress}
-        >
-          <Text style={[styles.white, styles.fontSize20]}>
-            Americanas - Shopping Patteo
-          </Text>
-          <Image
-            source={require("../assets/img/americanas.jpg")}
-            style={styles.eventoLogo}
-          />
-          <Text style={[styles.white, styles.fontSize20]}>23/08/2022</Text>
-        </TouchableOpacity>
-        
+        </View>
+        {eventos.map(e =>
+          <TouchableOpacity key={e.id} style={[styles.eventCard, styles.mb20]} onPress={onPress}>
+            <Text style={[styles.white, styles.fontSize20, styles.mb4]}>
+              {e.titulo}
+            </Text>
+            <Image source={e.imgUrl} style={styles.eventoLogo} />
+            <Text style={[styles.white, styles.fontSize20, styles.mt4]}>{e.data}</Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
 
       <View style={styles.alignItemsCenter}>
