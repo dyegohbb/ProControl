@@ -1,6 +1,39 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 const styles = StyleSheet.create({
+
+    fontSize20: { fontSize: 20 },
+
+    fontSize15: { fontSize: 15 },
+
+    alignItemsCenter: { alignItems: "center" },
+
+    noMarginBottom: { marginBottom: 0 },
+
+    mb20: { marginBottom: 20 },
+
+    mb4: { marginBottom: 4 },
+
+    mEnd20: { marginEnd: 20 },
+
+    mStart20: { marginStart: 20 },
+
+    width100: { width: 100 },
+
+    grey: { color: "grey" },
+
+    white: { color: "white" },
+
+    pb100: { paddingBottom: 100 },
+
+    mt10: { marginTop: 10 },
+
+    mt25: { marginTop: 25 },
+
+    fontBold: { fontWeight: "500" },
+
+    dNone: { display: "none" },
+
     principal: {
         flex: 1,
         flexDirection: "column",
@@ -9,26 +42,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 
-    listaDeEventos:{
-        marginTop: 10,
+    listaDeEventos: {
         flex: 1,
         flexDirection: "column",
         backgroundColor: "#1f1c32",
     },
 
-    logoText:{
-        fontSize: 24,
+    logoText: {
+        fontSize: 25,
         fontWeight: "600",
         marginTop: -8,
         marginBottom: 10,
-    },
-
-    noMarginBottom:{
-        marginBottom: 0,
-    },
-
-    width100: {
-        width: 100,
     },
 
     logoImage: {
@@ -57,30 +81,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
     },
 
-    grey: {
-        color: "grey",
-    },
-
-    white: {
-        color: "white",
-    },
-
-    pb100: {
-        paddingBottom: 100,
+    fRowSpaceBtw: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
 
     formLogin: {
         alignItems: "center",
         width: 300,
         paddingTop: 10,
-    },
-
-    mt10: {
-        marginTop: 10,
-    },
-
-    mt25: {
-        marginTop: 25,
     },
 
     loginError: {
@@ -93,13 +102,19 @@ const styles = StyleSheet.create({
         backgroundColor: "red",
     },
 
-    fontBold: {
-        fontWeight: "500",
+    eventCard: {
+        backgroundColor: "#292542",
+        alignItems: "center",
+        padding: 5,
+        borderRadius: 15
     },
 
-    dNone: {
-        display: "none",
-    }
+    eventScrollBody: {
+        marginVertical: 10,
+        marginHorizontal: 15,
+        marginTop: 15
+    },
+
 });
 
 export default styles;
