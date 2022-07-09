@@ -62,7 +62,7 @@ export default function ListaDeEventos({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
-  const [cred, setCred] = useState({});
+  const [login, setLogin] = useState({});
   const [eventos, setEventos] = useState([]);
   const [isLogout, setLogout] = useState(false);
 
@@ -73,14 +73,13 @@ export default function ListaDeEventos({ route, navigation }) {
 
   useEffect(() => {
     setEventos(eventosMock)
-    setCred({
+    setLogin({
       login: "dhbb",
-      token: "_PL<MNBVCXZ1q2w3e!"
     })
 
     if (route.params) {
-      const { credentials } = route.params;
-      setCred(credentials);
+      const { login } = route.params;
+      setLogin(login);
     } else {
       setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
       setDialogTitle("Problemas no carregamento")
@@ -90,7 +89,6 @@ export default function ListaDeEventos({ route, navigation }) {
 
   const toggleDialog = () => {
     setDialogOpen(!isOpenDialog);
-    console.log(isOpenDialog)
   };
 
   async function logout() {
@@ -110,12 +108,7 @@ export default function ListaDeEventos({ route, navigation }) {
     await Axios.post(
       "http://localhost:8080/eventos",
       {
-        login: cred.login,
-      },
-      {
-        headers: {
-          token: cred.token,
-        },
+        login: login,
       }
     )
       .then((response) => {

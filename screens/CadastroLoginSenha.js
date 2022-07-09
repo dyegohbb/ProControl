@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Keyboard, ScrollView } from "react-native";
 import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
 
-const codigoDeCadastro = "abc";
-
-export default function CadastroEmpresa({ navigation }) {
+export default function CadastroLoginSenha({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
-  const [cod, setCod] = useState("");
-  const [inputs, setInputs] = useState({
+  const [tipo, setTipo] = useState("");
+  const [empresa, setEmpresa] = useState({
     cnpj: "",
     razao: "",
     telefone: "",
@@ -21,7 +19,32 @@ export default function CadastroEmpresa({ navigation }) {
     end: "",
     representante: "",
   });
+  const [promotor, setPromotor] = useState({
+    cpf: '',
+    nome: '',
+    telefone: '',
+    email: '',
+    cep: '',
+    end: '',
+});
+  const [inputs, setInputs] = useState({
+    login: "",
+    senha: "",
+  });
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (route.params) {
+      const { tipo } = route.params;
+      const { campos } = route.params;
+      if (tipo == "empresa") {
+        setEmpresa(campos);
+      } else if (tipo == "promotor") {
+        setPromotor(campos);
+      }
+      setTipo(tipo)
+    }
+  }, []);
 
   const toggleDialog = () => {
     setDialogOpen(!isOpenDialog);
@@ -38,30 +61,53 @@ export default function CadastroEmpresa({ navigation }) {
   async function validar(navigation) {
     Keyboard.dismiss();
     let error = false;
-    if (!cod) {
+    setErrors({});
+
+    if (inputs.senha.length < 8) {
       error = true;
-      gerarError("* Campo obrigatório", "cod");
+      gerarError("* Min. 8 caracteres", "senha");
     }
+
+    if (inputs.login.length < 5) {
+      error = true;
+      gerarError("* Min. 5 caracteres", "login");
+    }
+
     Object.keys(inputs).forEach(function (input) {
       if (!inputs[input]) {
         error = true;
         gerarError("* Campo obrigatório", input);
       }
     });
+
     if (!error) {
-      if (codigoDeCadastro != cod) {
-        setErrors({});
-        setDialogTitle("Codigo de cadastro");
-        setDialogText(
-          "É necessário um código válido para estar completando o cadastro, solicite o código a um administrador do sistema."
-        );
-        toggleDialog();
-      } else {
-        navigation.navigate("CadastroLoginSenha", {
-          tipo: "empresa",
-          campos: inputs,
-        });
+      let cadastro = {}
+      let url = "http://localhost:8080/"
+      if(tipo == "empresa"){
+        cadastro = {
+            login: inputs.login,
+            senha: inputs.senha,
+            empresa: empresa
+          }
+          url = url + "empresa/cadastro";
+      }else if(tipo == "promotor"){
+        cadastro = {
+            login: inputs.login,
+            senha: inputs.senha,
+            promotor: promotor
+          }
+          url = url + "promotor/cadastro";
       }
+      await Axios.post(url, cadastro)
+      .then((response) => {
+          navigation.navigate("Login")
+      })
+      .catch((error) => {
+          setDialogTitle('Erro')
+          setDialogText('OOPS! Ocorreu algum erro ao cadastrar ' + tipo + ', entre em contato com um administrador do sistema.')
+          toggleDialog();
+          console.log(error);
+      });
     }
   }
 
@@ -72,7 +118,7 @@ export default function CadastroEmpresa({ navigation }) {
           source={require("../assets/img/logo.jpg")}
           style={styles.logoImage}
         />
-        <Text style={[styles.white, styles.logoText]}>Cadastro de empresa</Text>
+        <Text style={[styles.white, styles.logoText]}>Preencha seu login e senha</Text>
       </View>
 
       <ScrollView>
@@ -80,52 +126,17 @@ export default function CadastroEmpresa({ navigation }) {
           <View style={[styles.formLogin]}>
             <Input
               style={[styles.mt10, styles.white]}
-              errorMessage={errors.cod}
-              placeholder="Código de cadastro"
+              errorMessage={errors.login}
+              placeholder="Login"
               secureTextEntry={true}
-              onChangeText={(cod) => setCod(cod)}
+              onChangeText={(text) => OnChangeInput(text, "login")}
             />
             <Input
               style={[styles.mt10, styles.white]}
-              errorMessage={errors.cnpj}
-              placeholder="CNPJ"
-              onChangeText={(text) => OnChangeInput(text, "cnpj")}
-            />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.razao}
-              placeholder="Razão Social"
-              onChangeText={(text) => OnChangeInput(text, "razao")}
-            />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.telefone}
-              placeholder="Telefone"
-              onChangeText={(text) => OnChangeInput(text, "telefone")}
-            />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.email}
-              placeholder="Email"
-              onChangeText={(text) => OnChangeInput(text, "email")}
-            />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.cep}
-              placeholder="CEP"
-              onChangeText={(text) => OnChangeInput(text, "cep")}
-            />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.end}
-              placeholder="Endereço"
-              onChangeText={(text) => OnChangeInput(text, "end")}
-            />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.representante}
-              placeholder="Representante"
-              onChangeText={(text) => OnChangeInput(text, "representante")}
+              errorMessage={errors.senha}
+              placeholder="Senha"
+              secureTextEntry={true}
+              onChangeText={(text) => OnChangeInput(text, "senha")}
             />
             <Dialog isVisible={isOpenDialog} onBackdropPress={toggleDialog}>
               <Dialog.Title title={dialogTitle} />
@@ -134,7 +145,7 @@ export default function CadastroEmpresa({ navigation }) {
             <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
               <Button
                 style={styles.mt25}
-                title="Próximo"
+                title="Cadastrar"
                 buttonStyle={{
                   borderColor: "#f4f4f4",
                   backgroundColor: "#f4f4f4",
