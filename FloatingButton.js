@@ -21,7 +21,7 @@ export default class FloatingButton extends Component {
   };
 
   render() {
-    const facebookStyle = {
+    const usersStyle = {
       transform: [
         { scale: this.animation },
         {
@@ -33,7 +33,7 @@ export default class FloatingButton extends Component {
       ]
     };
 
-    const twitterStyle = {
+    const eventStyle = {
       transform: [
         { scale: this.animation },
         {
@@ -45,7 +45,7 @@ export default class FloatingButton extends Component {
       ]
     };
 
-    const instagramStyle = {
+    const refreshStyle = {
       transform: [
         { scale: this.animation },
         {
@@ -57,7 +57,7 @@ export default class FloatingButton extends Component {
       ]
     };
 
-    const logoutAnimation = {
+    const logoutStyle = {
       transform: [
         {rotateY: '180deg'},
         { scale: this.animation },
@@ -86,33 +86,28 @@ export default class FloatingButton extends Component {
       outputRange: [0, 0, 1]
     })
 
-    const onPress = () => {
-      console.log("boa noite")
-      this.toggleMenu()
-    }
-
     return (
       <View style={[styles.container, this.props.position]}>
-        <Animated.View style={[styles.button, styles.secondary, facebookStyle, opacity]}>
-          <TouchableOpacity onPress={onPress}>
+        <Animated.View style={[styles.button, styles.secondary, usersStyle, opacity]}>
+          <TouchableOpacity onPress={this.props.onPressUsers}>
             <Feather name="users" size={24} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={[styles.button, styles.secondary, twitterStyle, opacity]}>
-          <TouchableOpacity onPress={onPress}>
+        <Animated.View style={[styles.button, styles.secondary, eventStyle, opacity]}>
+          <TouchableOpacity onPress={this.props.onPressEvent}>
             <MaterialIcons name="event" size={24} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={[styles.button, styles.secondary, instagramStyle, opacity]}>
-          <TouchableOpacity onPress={onPress}>
+        <Animated.View style={[styles.button, styles.secondary, refreshStyle, opacity]}>
+          <TouchableOpacity onPress={this.props.onPressRefresh}>
             <Fontisto name="spinner-refresh" size={24} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={[styles.button, styles.secondary, logoutAnimation, opacity]}>
-          <TouchableOpacity onPress={onPress}>
+        <Animated.View style={[styles.button, styles.secondary, logoutStyle, opacity]}>
+          <TouchableOpacity onPress={this.props.onPressLogout}>
             <AntDesign name="logout" size={20} color="white" />
           </TouchableOpacity>
         </Animated.View>

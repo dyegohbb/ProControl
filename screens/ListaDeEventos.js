@@ -3,10 +3,12 @@ import { View, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { Button, Image, Dialog, Text, Icon } from "react-native-elements";
 import styles from "../assets/styles/main";
 import FloatingButton from "../FloatingButton";
+// import FloatingButton from "react-native-social-fab";
 import Axios from "axios";
+import Toast from '../SimpleToast';
 
 
-const eventos = [{
+const eventosMock = [{
   id: 1,
   titulo: "Extra - Jaboatão dos guararapes",
   data: "21/08/2022",
@@ -61,6 +63,8 @@ export default function ListaDeEventos({ route, navigation }) {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
   const [cred, setCred] = useState({});
+  const [eventos, setEventos] = useState([]);
+  const [isLogout, setLogout] = useState(false);
 
 
   const onPress = () => {
@@ -68,41 +72,62 @@ export default function ListaDeEventos({ route, navigation }) {
   };
 
   useEffect(() => {
-    async function listarEventos(credentials) {
-      console.log(credentials);
-      await Axios.post(
-        "http://localhost:8080/eventos",
-        {
-          login: credentials.login,
-        },
-        {
-          headers: {
-            token: credentials.token,
-          },
-        }
-      )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    setEventos(eventosMock)
+    setCred({
+      login: "dhbb",
+      token: "_PL<MNBVCXZ1q2w3e!"
+    })
+
     if (route.params) {
       const { credentials } = route.params;
       setCred(credentials);
-
-      listarEventos(credentials);
     } else {
-      // setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
-      // setDialogTitle("Problemas no carregamento")
-      // toggleDialog();
+      setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
+      setDialogTitle("Problemas no carregamento")
+      toggleDialog();
     }
   }, []);
 
   const toggleDialog = () => {
     setDialogOpen(!isOpenDialog);
+    console.log(isOpenDialog)
   };
+
+  async function logout() {
+    //APAGAR STORAGE ANTES DE VOLTAR PRA LOGIN
+    navigation.navigate("Login")
+  }
+
+  const toggleLogout = () => {
+    setLogout(true);
+    setDialogText("Deseja mesmo efetuar o logout?");
+    setDialogTitle("Desconectar")
+    toggleDialog();
+  }
+
+  async function refresh() {
+    Toast.show('Atualizando lista de eventos...', Toast.LONG)
+    await Axios.post(
+      "http://localhost:8080/eventos",
+      {
+        login: cred.login,
+      },
+      {
+        headers: {
+          token: cred.token,
+        },
+      }
+    )
+      .then((response) => {
+        Toast.show('Lista atualizada com sucesso!', Toast.LONG)
+        setEventos(response)
+      })
+      .catch((error) => {
+        Toast.show('Erro ao atualizar.', Toast.LONG)
+        console.log(error)
+      });
+  }
+
 
   return (
     <View style={styles.listaDeEventos}>
@@ -113,7 +138,7 @@ export default function ListaDeEventos({ route, navigation }) {
         />
         <Text style={[styles.white, styles.logoText]}>Lista de eventos</Text>
       </View>
-      
+
       <ScrollView style={styles.eventScrollBody}>
         <View style={[styles.alignItemsCenter, styles.mb20]}>
 
@@ -130,11 +155,12 @@ export default function ListaDeEventos({ route, navigation }) {
       </ScrollView>
       <View style={[styles.fRowSpaceBtw, styles.mt10, styles.zindex1]}>
         <FloatingButton
-            onPressFacebook={() => alert('facebook icon pressed')}
-            onPressTwitter={() => alert('Twitter icon pressed')}
-            onPressInstagram={() => alert('instagram icon pressed')}
-            position={{bottom: 100, right: 60}}
-          />
+          onPressUsers={() => console.log("teste")}
+          onPressEvent={() => console.log("teste")}
+          onPressRefresh={refresh}
+          onPressLogout={toggleLogout}
+          position={{ bottom: 100, right: 60 }}
+        />
       </View>
       <View style={styles.alignItemsCenter}>
         <Text style={[styles.fontSize10, styles.white, styles.mb4]}>
@@ -145,10 +171,20 @@ export default function ListaDeEventos({ route, navigation }) {
         <Dialog.Title title={dialogTitle} />
         <Text>{dialogText}</Text>
         <Dialog.Actions>
-          <Dialog.Button
-            title="Voltar"
-            onPress={() => navigation.navigate("Login")}
-          />
+          {isLogout ?
+            <View style={styles.fRowSpaceAround}>
+              <Dialog.Button
+              title="Cancelar"
+              onPress={() => toggleDialog()}/>
+              <Dialog.Button
+              title="Sair"
+              onPress={() => logout()}/>
+            </View>
+             :
+            <Dialog.Button
+              title="Voltar"
+              onPress={() => navigation.navigate("Login")}
+            />}
         </Dialog.Actions>
       </Dialog>
     </View>
