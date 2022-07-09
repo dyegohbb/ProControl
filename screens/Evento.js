@@ -31,10 +31,9 @@ export default function ListaDeEventos({ route, navigation }) {
     <View style={[styles.eventoPrincipal]}>
       <View style={[styles.fRowSpaceBtw, styles.mt10, styles.zindex1]}>
         <FloatingButton
-          onPressUsers={() => console.log("teste")}
-          onPressEvent={() => console.log("teste")}
-          onPressRefresh={() => console.log("teste")}
-          onPressLogout={() => console.log("teste")}
+          onPressEditEvent={() => console.log("teste")}
+          onPressAddPromotor={() => console.log("teste")}
+          tipo={"evento"}
           orientacao={"down"}
           position={{ top: 5, right: 20 }}
         />

@@ -1,11 +1,21 @@
-import React, { Component } from 'react'
-import { View, StyleSheet, Animated, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
-import { Feather, MaterialIcons, AntDesign, Fontisto } from '@expo/vector-icons';
-
-
+import React, { Component } from "react";
+import {
+  View,
+  StyleSheet,
+  Animated,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
+import {
+  Feather,
+  MaterialIcons,
+  AntDesign,
+  Fontisto,
+  MaterialCommunityIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 
 export default class FloatingButton extends Component {
-
   animation = new Animated.Value(0);
 
   toggleMenu = () => {
@@ -14,30 +24,36 @@ export default class FloatingButton extends Component {
     Animated.spring(this.animation, {
       toValue,
       friction: 10,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start();
 
     this.open = !this.open;
   };
 
   render() {
-
-    const orientacao = this.props.orientacao || "up";
-    var sinal = "-"
-    if(orientacao == "down"){
-      sinal = ""
+    var evento = false;
+    const tipo = this.props.tipo || "";
+    if (tipo == "evento") {
+      evento = true;
+    } else {
+      evento = false;
     }
-    
+    const orientacao = this.props.orientacao || "up";
+    var sinal = "-";
+    if (orientacao == "down") {
+      sinal = "";
+    }
+
     const usersStyle = {
       transform: [
         { scale: this.animation },
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, sinal + "240"]
-          })
-        }
-      ]
+            outputRange: [0, sinal + "240"],
+          }),
+        },
+      ],
     };
 
     const eventStyle = {
@@ -46,10 +62,10 @@ export default class FloatingButton extends Component {
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, sinal + "180"]
-          })
-        }
-      ]
+            outputRange: [0, sinal + "180"],
+          }),
+        },
+      ],
     };
 
     const refreshStyle = {
@@ -58,23 +74,47 @@ export default class FloatingButton extends Component {
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, sinal + "120"]
-          })
-        }
-      ]
+            outputRange: [0, sinal + "120"],
+          }),
+        },
+      ],
     };
 
     const logoutStyle = {
       transform: [
-        {rotateY: '180deg'},
+        { rotateY: "180deg" },
         { scale: this.animation },
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, sinal + "60"]
-          })
-        }
-      ]
+            outputRange: [0, sinal + "60"],
+          }),
+        },
+      ],
+    };
+
+    const userEditStyle = {
+      transform: [
+        { scale: this.animation },
+        {
+          translateY: this.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, sinal + "70"],
+          }),
+        },
+      ],
+    };
+
+    const calendarEditStyle = {
+      transform: [
+        { scale: this.animation },
+        {
+          translateY: this.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, sinal + "130"],
+          }),
+        },
+      ],
     };
 
     const rotation = {
@@ -82,40 +122,104 @@ export default class FloatingButton extends Component {
         {
           rotate: this.animation.interpolate({
             inputRange: [0, 2],
-            outputRange: ["0deg", "450deg"]
-          })
-        }
-      ]
+            outputRange: ["0deg", "450deg"],
+          }),
+        },
+      ],
     };
 
     const opacity = this.animation.interpolate({
       inputRange: [0, 0.5, 1],
-      outputRange: [0, 0, 1]
-    })
+      outputRange: [0, 0, 1],
+    });
 
     return (
       <View style={[styles.container, this.props.position]}>
-        <Animated.View style={[styles.button, styles.secondary, usersStyle, opacity]}>
+        <Animated.View
+          style={[
+            styles.button,
+            styles.secondary,
+            usersStyle,
+            opacity,
+            evento && { display: "none" },
+          ]}
+        >
           <TouchableOpacity onPress={this.props.onPressUsers}>
             <Feather name="users" size={24} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={[styles.button, styles.secondary, eventStyle, opacity]}>
+        <Animated.View
+          style={[
+            styles.button,
+            styles.secondary,
+            eventStyle,
+            opacity,
+            evento && { display: "none" },
+          ]}
+        >
           <TouchableOpacity onPress={this.props.onPressEvent}>
             <MaterialIcons name="event" size={24} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={[styles.button, styles.secondary, refreshStyle, opacity]}>
+        <Animated.View
+          style={[
+            styles.button,
+            styles.secondary,
+            refreshStyle,
+            opacity,
+            evento && { display: "none" },
+          ]}
+        >
           <TouchableOpacity onPress={this.props.onPressRefresh}>
             <Fontisto name="spinner-refresh" size={24} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={[styles.button, styles.secondary, logoutStyle, opacity]}>
+        <Animated.View
+          style={[
+            styles.button,
+            styles.secondary,
+            logoutStyle,
+            opacity,
+            evento && { display: "none" },
+          ]}
+        >
           <TouchableOpacity onPress={this.props.onPressLogout}>
             <AntDesign name="logout" size={20} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
+
+        <Animated.View
+          style={[
+            styles.button,
+            styles.secondary,
+            calendarEditStyle,
+            opacity,
+            !evento && { display: "none" },
+          ]}
+        >
+          <TouchableOpacity onPress={this.props.onPressEditEvent}>
+            <MaterialCommunityIcons
+              name="calendar-edit"
+              size={24}
+              color="white"
+            />
+          </TouchableOpacity>
+        </Animated.View>
+
+        <Animated.View
+          style={[
+            styles.button,
+            styles.secondary,
+            userEditStyle,
+            opacity,
+            !evento && { display: "none" },
+          ]}
+        >
+          <TouchableOpacity onPress={this.props.onPressAddPromotor}>
+            <FontAwesome5 name="user-edit" size={20} color="white" />
           </TouchableOpacity>
         </Animated.View>
 
@@ -125,13 +229,13 @@ export default class FloatingButton extends Component {
           </Animated.View>
         </TouchableWithoutFeedback>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     position: "absolute",
   },
 
@@ -145,7 +249,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowColor: "#9262a3",
     shadowOpacity: 0.5,
-    shadowOffset: { height: 10 }
+    shadowOffset: { height: 10 },
   },
 
   menu: {
@@ -156,6 +260,6 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 48 / 2,
-    backgroundColor: "#18093F"
-  }
+    backgroundColor: "#18093F",
+  },
 });
