@@ -21,13 +21,20 @@ export default class FloatingButton extends Component {
   };
 
   render() {
+
+    const orientacao = this.props.orientacao || "up";
+    var sinal = "-"
+    if(orientacao == "down"){
+      sinal = ""
+    }
+    
     const usersStyle = {
       transform: [
         { scale: this.animation },
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -240]
+            outputRange: [0, sinal + "240"]
           })
         }
       ]
@@ -39,7 +46,7 @@ export default class FloatingButton extends Component {
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -180]
+            outputRange: [0, sinal + "180"]
           })
         }
       ]
@@ -51,7 +58,7 @@ export default class FloatingButton extends Component {
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -120]
+            outputRange: [0, sinal + "120"]
           })
         }
       ]
@@ -64,7 +71,7 @@ export default class FloatingButton extends Component {
         {
           translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -60]
+            outputRange: [0, sinal + "60"]
           })
         }
       ]

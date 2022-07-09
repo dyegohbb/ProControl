@@ -13,48 +13,48 @@ const eventosMock = [{
   titulo: "Extra - Jaboatão dos guararapes",
   data: "21/08/2022",
   imgUrl: require("../assets/img/hiper.jpg"),
-  rua: "",
-  numero: "",
-  complemento: "",
-  bairro: "",
-  cidade: "",
-  estado: "",
+  rua: "Rua Sanharó",
+  numero: "129",
+  bairro: "Planalto",
+  cidade: "Abreu e Lima",
+  estado: "PE",
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
 },
 {
   id: 2,
   titulo: "Assaí - Abreu e Lima",
   data: "22/08/2022",
   imgUrl: require("../assets/img/assai.jpeg"),
-  rua: "",
-  numero: "",
-  complemento: "",
-  bairro: "",
-  cidade: "",
-  estado: "",
+  rua: "Rua Sapoti",
+  numero: "11",
+  bairro: "Planalto",
+  cidade: "Abreu e Lima",
+  estado: "PE",
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
 },
 {
   id: 3,
   titulo: "Carrefour - Ibura",
   data: "23/08/2022",
   imgUrl: require("../assets/img/carrefour.jpg"),
-  rua: "",
-  numero: "",
-  complemento: "",
-  bairro: "",
-  cidade: "",
-  estado: "",
+  rua: "Rua Marechal Costa e Silva",
+  numero: "110",
+  bairro: "Planalto",
+  cidade: "Abreu e Lima",
+  estado: "PE",
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
 },
 {
   id: 4,
   titulo: "Americanas - Shopping Patteo",
   data: "23/08/2022",
   imgUrl: require("../assets/img/americanas.jpg"),
-  rua: "",
-  numero: "",
-  complemento: "",
-  bairro: "",
-  cidade: "",
-  estado: "",
+  rua: "Rua Sanharó",
+  numero: "129",
+  bairro: "Planalto",
+  cidade: "Abreu e Lima",
+  estado: "PE",
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
 }];
 
 
@@ -65,11 +65,6 @@ export default function ListaDeEventos({ route, navigation }) {
   const [login, setLogin] = useState({});
   const [eventos, setEventos] = useState([]);
   const [isLogout, setLogout] = useState(false);
-
-
-  const onPress = () => {
-    console.log("amigo estou aqui");
-  };
 
   useEffect(() => {
     setEventos(eventosMock)
@@ -121,6 +116,11 @@ export default function ListaDeEventos({ route, navigation }) {
       });
   }
 
+  const goToEvento = (evento) => {
+    navigation.navigate("Evento", {
+      evento: evento,
+    });
+  };
 
   return (
     <View style={styles.listaDeEventos}>
@@ -137,7 +137,7 @@ export default function ListaDeEventos({ route, navigation }) {
 
         </View>
         {eventos.map(e =>
-          <TouchableOpacity key={e.id} style={[styles.eventCard, styles.mb20]} onPress={onPress}>
+          <TouchableOpacity key={e.id} style={[styles.eventCard, styles.mb20]} onPress={ () => goToEvento(e)}>
             <Text style={[styles.white, styles.fontSize20, styles.mb4]}>
               {e.titulo}
             </Text>
@@ -152,6 +152,7 @@ export default function ListaDeEventos({ route, navigation }) {
           onPressEvent={() => console.log("teste")}
           onPressRefresh={refresh}
           onPressLogout={toggleLogout}
+          orientacao={"up"}
           position={{ bottom: 100, right: 60 }}
         />
       </View>
