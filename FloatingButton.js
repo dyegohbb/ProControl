@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native'
-import {AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons';
+import { View, StyleSheet, Animated, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
+import { Feather, MaterialIcons, AntDesign, Fontisto } from '@expo/vector-icons';
+
 
 
 export default class FloatingButton extends Component {
@@ -24,9 +25,9 @@ export default class FloatingButton extends Component {
       transform: [
         { scale: this.animation },
         {
-          translateX: this.animation.interpolate({
+          translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -200]
+            outputRange: [0, -240]
           })
         }
       ]
@@ -36,9 +37,9 @@ export default class FloatingButton extends Component {
       transform: [
         { scale: this.animation },
         {
-          translateX: this.animation.interpolate({
+          translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -140]
+            outputRange: [0, -180]
           })
         }
       ]
@@ -48,9 +49,22 @@ export default class FloatingButton extends Component {
       transform: [
         { scale: this.animation },
         {
-          translateX: this.animation.interpolate({
+          translateY: this.animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, -80]
+            outputRange: [0, -120]
+          })
+        }
+      ]
+    };
+
+    const logoutAnimation = {
+      transform: [
+        {rotateY: '180deg'},
+        { scale: this.animation },
+        {
+          translateY: this.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -60]
           })
         }
       ]
@@ -60,8 +74,8 @@ export default class FloatingButton extends Component {
       transform: [
         {
           rotate: this.animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: ["0deg", "360deg"]
+            inputRange: [0, 2],
+            outputRange: ["0deg", "450deg"]
           })
         }
       ]
@@ -72,30 +86,41 @@ export default class FloatingButton extends Component {
       outputRange: [0, 0, 1]
     })
 
+    const onPress = () => {
+      console.log("boa noite")
+      this.toggleMenu()
+    }
+
     return (
-      <View style = {[styles.container, this.props.position]}>
-      <TouchableWithoutFeedback onPress={this.props.onPressFacebook}>
-            <Animated.View style ={[styles.button, styles.secondary, facebookStyle, opacity]}>
-                <FontAwesome5 name="facebook-f" size={24} color="#3b5998" />
-            </Animated.View>
-        </TouchableWithoutFeedback>
+      <View style={[styles.container, this.props.position]}>
+        <Animated.View style={[styles.button, styles.secondary, facebookStyle, opacity]}>
+          <TouchableOpacity onPress={onPress}>
+            <Feather name="users" size={24} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
 
-        <TouchableWithoutFeedback onPress={this.props.onPressTwitter}>
-            <Animated.View style ={[styles.button, styles.secondary, twitterStyle, opacity]}>
-                <Entypo name="twitter" size={24} color="#1DA1F2" />
-            </Animated.View>
-        </TouchableWithoutFeedback>
+        <Animated.View style={[styles.button, styles.secondary, twitterStyle, opacity]}>
+          <TouchableOpacity onPress={onPress}>
+            <MaterialIcons name="event" size={24} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
 
-        <TouchableWithoutFeedback onPress={this.props.onPressInstagram}>
-            <Animated.View style ={[styles.button, styles.secondary, instagramStyle, opacity]}>
-                <AntDesign name="instagram" size={24} color="#cd486b" />
-            </Animated.View>
-        </TouchableWithoutFeedback>
+        <Animated.View style={[styles.button, styles.secondary, instagramStyle, opacity]}>
+          <TouchableOpacity onPress={onPress}>
+            <Fontisto name="spinner-refresh" size={24} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
 
-        <TouchableWithoutFeedback onPress = {this.toggleMenu}>
-            <Animated.View style ={[styles.button, styles.menu, rotation]}>
-                <FontAwesome5 name="share-alt" size={24} color="#FFF" />
-            </Animated.View>
+        <Animated.View style={[styles.button, styles.secondary, logoutAnimation, opacity]}>
+          <TouchableOpacity onPress={onPress}>
+            <AntDesign name="logout" size={20} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
+
+        <TouchableWithoutFeedback onPress={this.toggleMenu}>
+          <Animated.View style={[styles.button, styles.menu, rotation]}>
+            <AntDesign name="plus" size={24} color="#FFF" />
+          </Animated.View>
         </TouchableWithoutFeedback>
       </View>
     )
@@ -103,32 +128,32 @@ export default class FloatingButton extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      alignItems: 'center',
-      position: "absolute",
-    },
+  container: {
+    alignItems: 'center',
+    position: "absolute",
+  },
 
-    button: {
-        position: "absolute",
-        width: 60,
-        height: 60,
-        borderRadius: 60 / 2,
-        alignItems: "center",
-        justifyContent: "center",
-        shadowRadius: 10,
-        shadowColor: "#9262a3",
-        shadowOpacity: 0.5,
-        shadowOffset: {height: 10 }
-    },
+  button: {
+    position: "absolute",
+    width: 60,
+    height: 60,
+    borderRadius: 60 / 2,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowRadius: 10,
+    shadowColor: "#9262a3",
+    shadowOpacity: 0.5,
+    shadowOffset: { height: 10 }
+  },
 
-    menu: {
-        backgroundColor: "#4169E1",
-    },
-    
-    secondary: {
-      width: 48,
-      height: 48,
-      borderRadius: 48/2,
-      backgroundColor: "#fff"
-    }
-  });
+  menu: {
+    backgroundColor: "#18093F",
+  },
+
+  secondary: {
+    width: 48,
+    height: 48,
+    borderRadius: 48 / 2,
+    backgroundColor: "#18093F"
+  }
+});

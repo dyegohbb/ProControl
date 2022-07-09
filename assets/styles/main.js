@@ -8,6 +8,10 @@ const styles = StyleSheet.create({
 
     alignItemsCenter: { alignItems: "center" },
 
+    zindex1: {
+        zIndex: 1
+    },
+
     noMarginBottom: { marginBottom: 0 },
 
     mb20: { marginBottom: 20 },

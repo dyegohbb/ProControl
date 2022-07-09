@@ -106,14 +106,6 @@ export default function ListaDeEventos({ route, navigation }) {
 
   return (
     <View style={styles.listaDeEventos}>
-      <View style={{ zIndex: 1 }}>
-        <FloatingButton
-          onPressFacebook={() => alert('facebook icon pressed')}
-          onPressTwitter={() => alert('Twitter icon pressed')}
-          onPressInstagram={() => alert('instagram icon pressed')}
-          position={{ top: 140, right: 30 }}
-        />
-      </View>
       <View style={[styles.alignItemsCenter, styles.mt25]}>
         <Image
           source={require("../assets/img/logo.jpg")}
@@ -121,35 +113,7 @@ export default function ListaDeEventos({ route, navigation }) {
         />
         <Text style={[styles.white, styles.logoText]}>Lista de eventos</Text>
       </View>
-      <View style={[styles.fRowSpaceBtw, styles.mt10]}>
-        <Icon
-          color="white"
-          containerStyle={styles.mStart20}
-          name="calendar-plus"
-          onLongPress={() => console.log("onLongPress()")}
-          onPress={() => console.log("onPress()")}
-          size={35}
-          type="material-community"
-        />
-        <Icon
-          color="white"
-          containerStyle={styles.mEnd20}
-          name="refresh"
-          onLongPress={() => console.log("onLongPress()")}
-          onPress={() => console.log("onPress()")}
-          size={35}
-          type="material-community"
-        />
-        <Icon
-          color="white"
-          containerStyle={styles.mEnd20}
-          name="account-multiple-plus"
-          onLongPress={() => console.log("onLongPress()")}
-          onPress={() => console.log("onPress()")}
-          size={35}
-          type="material-community"
-        />
-      </View>
+      
       <ScrollView style={styles.eventScrollBody}>
         <View style={[styles.alignItemsCenter, styles.mb20]}>
 
@@ -164,7 +128,14 @@ export default function ListaDeEventos({ route, navigation }) {
           </TouchableOpacity>
         )}
       </ScrollView>
-
+      <View style={[styles.fRowSpaceBtw, styles.mt10, styles.zindex1]}>
+        <FloatingButton
+            onPressFacebook={() => alert('facebook icon pressed')}
+            onPressTwitter={() => alert('Twitter icon pressed')}
+            onPressInstagram={() => alert('instagram icon pressed')}
+            position={{bottom: 100, right: 60}}
+          />
+      </View>
       <View style={styles.alignItemsCenter}>
         <Text style={[styles.fontSize10, styles.white, styles.mb4]}>
           Empresa: Quality Promotores
