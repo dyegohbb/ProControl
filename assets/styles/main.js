@@ -8,9 +8,7 @@ const styles = StyleSheet.create({
 
     alignItemsCenter: { alignItems: "center" },
 
-    zindex1: {
-        zIndex: 1
-    },
+    zindex1: {zIndex: 1},
 
     noMarginBottom: { marginBottom: 0 },
 
@@ -54,6 +52,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#1f1c32",
     },
 
+    eventoPrincipal: {
+        backgroundColor: "#1f1c32",
+        flex: 1,
+        padding: 20,
+        flexDirection: "column"
+      },
+
     logoText: {
         fontSize: 25,
         fontWeight: "600",
@@ -69,6 +74,11 @@ const styles = StyleSheet.create({
     eventoLogo: {
         width: 300,
         height: 130,
+    },
+
+    eventoImage: {
+        width: 350,
+        height: 200,
     },
 
     homeButton: {
@@ -89,7 +99,7 @@ const styles = StyleSheet.create({
 
     fRowSpaceBtw: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
     },
 
     formLogin: {
