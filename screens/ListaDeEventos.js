@@ -7,6 +7,15 @@ import FloatingButton from "../FloatingButton";
 import Axios from "axios";
 import Toast from '../SimpleToast';
 
+const empresa = {
+  cnpj: "15151",
+  razao: "asdasd",
+  telefone: "asdasd",
+  email: "asdasd",
+  cep: "454545",
+  end: "asdasd",
+  representante: "asdasd",
+}
 
 const eventosMock = [{
   id: 1,
@@ -101,7 +110,7 @@ export default function ListaDeEventos({ route, navigation }) {
   async function refresh() {
     Toast.show('Atualizando lista de eventos...', Toast.LONG)
     await Axios.post(
-      "http://localhost:8080/eventos",
+      "http://localhost:8080/eventos/list",
       {
         login: login,
       }
@@ -148,8 +157,8 @@ export default function ListaDeEventos({ route, navigation }) {
       </ScrollView>
       <View style={[styles.fRowSpaceBtw, styles.mt10, styles.zindex1]}>
         <FloatingButton
-          onPressUsers={() => console.log("teste")}
-          onPressEvent={() => console.log("teste")}
+          onPressUsers={() => navigation.navigate("CadastroPromotor", { empresa:empresa , login: login })}
+          onPressEvent={() => navigation.navigate("CadastroEvento", { login: login })}
           onPressRefresh={refresh}
           onPressLogout={toggleLogout}
           orientacao={"up"}

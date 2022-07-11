@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Keyboard, ScrollView } from "react-native";
 import { View } from "react-native";
 import { Input, Button, Image, Dialog, Text } from "react-native-elements";
@@ -9,6 +9,8 @@ export default function CadastroPromotor({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
+  const [empresa, setEmpresa] = useState({});
+  const [login, setLogin] = useState("");
   const [inputs, setInputs] = useState({
     cpf: "",
     nome: "",
@@ -18,6 +20,23 @@ export default function CadastroPromotor({ route, navigation }) {
     end: "",
   });
   const [errors, setErrors] = React.useState({});
+
+  useEffect(() => {
+    if(route.params){
+      const { empresa } = route.params;
+      const { login } = route.params;
+
+      setEmpresa(empresa);
+      setLogin(login);
+      console.log(login)
+      console.log(empresa)
+    }else{
+      setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
+      setDialogTitle("Problemas no carregamento")
+      toggleDialog();
+    }
+
+  }, []);
 
   const toggleDialog = () => {
     setDialogOpen(!isOpenDialog);
@@ -44,6 +63,7 @@ export default function CadastroPromotor({ route, navigation }) {
       navigation.navigate("CadastroLoginSenha", {
         tipo: "promotor",
         campos: inputs,
+        empresa: empresa,
       });
     }
   }
@@ -126,7 +146,7 @@ export default function CadastroPromotor({ route, navigation }) {
                 width: 100,
               }}
               titleStyle={{ color: "grey" }}
-              onPress={() => navigation.navigate("Home")}
+              onPress={() => navigation.navigate("ListaDeEventos", { login: login, refresh: false})}
             />
           </View>
         </View>

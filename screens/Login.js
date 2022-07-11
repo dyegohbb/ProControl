@@ -39,15 +39,12 @@ function Login({ navigation }) {
         password: inputs.pw,
       })
         .then((response) => {
-          let credentials = {
-            login: inputs.login,
-          };
-          navigation.navigate("ListaDeEventos", { credentials });
+          navigation.navigate("ListaDeEventos", { login: inputs.login, refresh: true });
         })
         .catch((error) => {
           toggleDialog();
 
-          navigation.navigate("ListaDeEventos", { login: inputs.login });
+          navigation.navigate("ListaDeEventos", { login: inputs.login, refresh: true });
         });
     }
   }
