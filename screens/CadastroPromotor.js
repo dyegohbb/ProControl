@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Input, Button, Image, Dialog, Text } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import MaskInput, {Masks} from "react-native-mask-input";
 
 export default function CadastroPromotor({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
@@ -79,11 +80,12 @@ export default function CadastroPromotor({ route, navigation }) {
       </View>
       <ScrollView>
         <View style={[styles.formLogin]}>
-          <Input
+          <MaskInput
             style={[styles.mt10, styles.white]}
             errorMessage={errors.cpf}
-            placeholder="CPF"
+            value={inputs.cpf}
             onChangeText={(text) => OnChangeInput(text, "cpf")}
+            mask={Masks.BRL_CPF}
           />
           <Input
             style={[styles.mt10, styles.white]}
@@ -91,23 +93,25 @@ export default function CadastroPromotor({ route, navigation }) {
             placeholder="Nome"
             onChangeText={(text) => OnChangeInput(text, "nome")}
           />
-          <Input
-            style={[styles.mt10, styles.white]}
-            errorMessage={errors.telefone}
-            placeholder="Telefone"
-            onChangeText={(text) => OnChangeInput(text, "telefone")}
-          />
+         <MaskInput
+              style={[styles.mt10, styles.white]}
+              errorMessage={errors.telefone}
+              value={inputs.telefone}
+              onChangeText={(text) => OnChangeInput(text, "telefone")}
+              mask={Masks.BRL_PHONE}
+            />
           <Input
             style={[styles.mt10, styles.white]}
             errorMessage={errors.email}
             placeholder="Email"
             onChangeText={(text) => OnChangeInput(text, "email")}
           />
-          <Input
+          <MaskInput
             style={[styles.mt10, styles.white]}
             errorMessage={errors.cep}
-            placeholder="CEP"
+            value={inputs.cep}
             onChangeText={(text) => OnChangeInput(text, "cep")}
+            mask={Masks.ZIP_CODE}
           />
           <Input
             style={[styles.mt10, styles.white]}

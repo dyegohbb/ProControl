@@ -4,6 +4,8 @@ import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import MaskInput, {
+ Masks } from "react-native-mask-input";
 
 const codigoDeCadastro = "abc";
 
@@ -12,7 +14,7 @@ export default function CadastroEmpresa({ navigation }) {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
   const [cod, setCod] = useState("");
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = React.useState({
     cnpj: "",
     razao: "",
     telefone: "",
@@ -85,10 +87,11 @@ export default function CadastroEmpresa({ navigation }) {
               secureTextEntry={true}
               onChangeText={(cod) => setCod(cod)}
             />
-            <Input
+            <MaskInput
               style={[styles.mt10, styles.white]}
               errorMessage={errors.cnpj}
-              placeholder="CNPJ"
+              value={inputs.cnpj}
+              mask={Masks.BRL_CNPJ}
               onChangeText={(text) => OnChangeInput(text, "cnpj")}
             />
             <Input
@@ -97,11 +100,12 @@ export default function CadastroEmpresa({ navigation }) {
               placeholder="Razão Social"
               onChangeText={(text) => OnChangeInput(text, "razao")}
             />
-            <Input
+            <MaskInput
               style={[styles.mt10, styles.white]}
               errorMessage={errors.telefone}
-              placeholder="Telefone"
+              value={inputs.telefone}
               onChangeText={(text) => OnChangeInput(text, "telefone")}
+              mask={Masks.BRL_PHONE}
             />
             <Input
               style={[styles.mt10, styles.white]}
@@ -109,11 +113,12 @@ export default function CadastroEmpresa({ navigation }) {
               placeholder="Email"
               onChangeText={(text) => OnChangeInput(text, "email")}
             />
-            <Input
+            <MaskInput
               style={[styles.mt10, styles.white]}
               errorMessage={errors.cep}
-              placeholder="CEP"
+              value={inputs.cep}
               onChangeText={(text) => OnChangeInput(text, "cep")}
+              mask={Masks.ZIP_CODE}
             />
             <Input
               style={[styles.mt10, styles.white]}
