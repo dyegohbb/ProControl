@@ -27,7 +27,10 @@ const eventosMock = [{
   bairro: "Planalto",
   cidade: "Abreu e Lima",
   estado: "PE",
-  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare",
+  promotor: "teste teste",
+  endEntrega: "",
+  dataEntrega:"",
 },
 {
   id: 2,
@@ -39,7 +42,10 @@ const eventosMock = [{
   bairro: "Planalto",
   cidade: "Abreu e Lima",
   estado: "PE",
-  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare",
+  promotor: "teste teste",
+  endEntrega: "",
+  dataEntrega:"",
 },
 {
   id: 3,
@@ -51,7 +57,10 @@ const eventosMock = [{
   bairro: "Planalto",
   cidade: "Abreu e Lima",
   estado: "PE",
-  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare",
+  promotor: "teste teste",
+  endEntrega: "",
+  dataEntrega:"",
 },
 {
   id: 4,
@@ -63,7 +72,10 @@ const eventosMock = [{
   bairro: "Planalto",
   cidade: "Abreu e Lima",
   estado: "PE",
-  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare"
+  details: "lorem ipsum dolor sit amet consectetur adipiscing elit sagittis velit torquent class ornare",
+  promotor: "teste teste",
+  endEntrega: "",
+  dataEntrega:"",
 }];
 
 

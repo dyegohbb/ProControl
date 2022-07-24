@@ -1,15 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { Input, Button, Image, Dialog, Text } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
 import styles from "../assets/styles/main";
 import FloatingButton from "../FloatingButton";
+import * as Location from "expo-location";
+import Axios from "axios";
 
 export default function ListaDeEventos({ route, navigation }) {
   const [evento, setEvento] = useState({});
   const [endereco, setEndereco] = useState("");
+  const [eventLocation, setEventLocation] = useState({});
+  const [loadingE, setLoadingE] = useState(true);
+
+  const [userLocation, setUserLocation] = useState({});
+  _getLocationAsync = async () => {
+    console.log("teste");
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.error("Localização não permitida pelo usuário");
+    }
+  };
+
+  async function entregarEvento() {
+    let location = await Location.getCurrentPositionAsync({});
+
+    await Axios.post("http://localhost:8080/evento/" + evento.id, {
+      localizacao: location,
+      dataDeEntrega: new Date(),
+    })
+      .then((response) => {
+        navigation.navigate("Login");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        console.log({
+          localizacao: location,
+          dataDeEntrega: new Date().toLocaleString("pt-BR", {
+            timeZone: "America/Recife",
+          }),
+        });
+      });
+  }
 
   useEffect(() => {
+    _getLocationAsync();
     if (route.params) {
       const { evento } = route.params;
       setEvento(evento);
@@ -24,9 +65,23 @@ export default function ListaDeEventos({ route, navigation }) {
         " - " +
         evento.estado;
       setEndereco(end);
+      const attempGeocode = async () => {
+        try {
+          const result = await Location.geocodeAsync(end);
+          let location = {
+            latitude: result[0].latitude,
+            longitude: result[0].longitude,
+          };
+          setEventLocation(location);
+          setLoadingE(false);
+        } catch (e) {
+          console.log(e.message);
+        }
+      };
+      attempGeocode().catch(console.error);
     }
   }, []);
-  console.log(endereco);
+
   return (
     <View style={[styles.eventoPrincipal]}>
       <View style={[styles.fRowSpaceBtw, styles.mt10, styles.zindex1]}>
@@ -67,24 +122,40 @@ export default function ListaDeEventos({ route, navigation }) {
           </Text>
         </View>
         <View style={[{ flex: 3.7 }, styles.alignItemsCenter]}>
-          <MapView
-            style={maps.map}
-            initialRegion={{
-              latitude: -7.90398923,
-              longitude: -34.91774261,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            }}
-          >
-            <Marker
-              coordinate={{
-                latitude: -7.90398923,
-                longitude: -34.91774261,
-                latitudeDelta: 0.0022,
-                longitudeDelta: 0.0021,
+          {!loadingE ? (
+            <MapView
+              style={maps.map}
+              showsUserLocation={true}
+              initialRegion={{
+                latitude: eventLocation.latitude,
+                longitude: eventLocation.longitude,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001,
               }}
-            />
-          </MapView>
+            >
+              <Marker
+                coordinate={{
+                  latitude: eventLocation.latitude,
+                  longitude: eventLocation.longitude,
+                  latitudeDelta: 0.0022,
+                  longitudeDelta: 0.0021,
+                }}
+              />
+            </MapView>
+          ) : (
+            <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          )}
+        </View>
+        <View style={[styles.groupHomeButtons, styles.fRowSpaceCenter]}>
+          <Button
+            title="Entregar"
+            buttonStyle={styles.homeButton}
+            containerStyle={styles.width100}
+            titleStyle={styles.grey}
+            onPress={() => entregarEvento()}
+          />
         </View>
       </ScrollView>
     </View>
@@ -100,12 +171,5 @@ const maps = StyleSheet.create({
   map: {
     width: 350,
     height: 200,
-  },
-});
-
-const styles2 = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
   },
 });

@@ -102,6 +102,11 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
     },
 
+    fRowSpaceCenter: {
+        flexDirection: "column",
+        justifyContent: "center",
+    },
+
     formLogin: {
         alignItems: "center",
         width: 300,
