@@ -13,7 +13,7 @@ export default function CadastroEmpresa({ navigation }) {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
   const [cod, setCod] = useState("");
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = React.useState({
     cnpj: "",
     razao: "",
     telefone: "",
@@ -112,6 +112,7 @@ export default function CadastroEmpresa({ navigation }) {
               value={inputs.telefone}
               placeholder=" Telefone"
               onChangeText={(text) => OnChangeInput(text, "telefone")}
+              mask={Masks.BRL_PHONE}
             />
             <Input
               style={[styles.mt10, styles.white]}
@@ -126,6 +127,7 @@ export default function CadastroEmpresa({ navigation }) {
               placeholder=" CEP"
               value={inputs.cep}
               onChangeText={(text) => OnChangeInput(text, "cep")}
+              mask={Masks.ZIP_CODE}
             />
             <Input
               style={[styles.mt10, styles.white]}

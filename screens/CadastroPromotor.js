@@ -91,6 +91,7 @@ export default function CadastroPromotor({ route, navigation }) {
             value={inputs.cpf}
             placeholder=" CPF"
             onChangeText={(text) => OnChangeInput(text, "cpf")}
+            mask={Masks.BRL_CPF}
           />
 
           <Input
@@ -127,6 +128,7 @@ export default function CadastroPromotor({ route, navigation }) {
             placeholder=" CEP"
             value={inputs.cep}
             onChangeText={(text) => OnChangeInput(text, "cep")}
+            mask={Masks.ZIP_CODE}
           />
           <Input
             style={[styles.mt10, styles.white]}
