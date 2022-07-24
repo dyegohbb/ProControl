@@ -4,6 +4,8 @@ import { View } from "react-native";
 import { Input, Button, Image, Dialog, Text } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import MaskInput, { Masks } from "react-native-mask-input";
+import { TextInputMask } from "react-native-masked-text";
 
 export default function CadastroPromotor({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
@@ -11,7 +13,7 @@ export default function CadastroPromotor({ route, navigation }) {
   const [dialogText, setDialogText] = useState("");
   const [empresa, setEmpresa] = useState({});
   const [login, setLogin] = useState("");
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = React.useState({
     cpf: "",
     nome: "",
     telefone: "",
@@ -22,20 +24,21 @@ export default function CadastroPromotor({ route, navigation }) {
   const [errors, setErrors] = React.useState({});
 
   useEffect(() => {
-    if(route.params){
+    if (route.params) {
       const { empresa } = route.params;
       const { login } = route.params;
 
       setEmpresa(empresa);
       setLogin(login);
-      console.log(login)
-      console.log(empresa)
-    }else{
-      setDialogText("OPS! Tivemos um problema, contate um administrador do sistema.");
-      setDialogTitle("Problemas no carregamento")
+      console.log(login);
+      console.log(empresa);
+    } else {
+      setDialogText(
+        "OPS! Tivemos um problema, contate um administrador do sistema."
+      );
+      setDialogTitle("Problemas no carregamento");
       toggleDialog();
     }
-
   }, []);
 
   const toggleDialog = () => {
@@ -75,38 +78,54 @@ export default function CadastroPromotor({ route, navigation }) {
           source={require("../assets/img/logo.jpg")}
           style={styles.logoImage}
         />
-        <Text style={[styles.white, styles.logoText]}>Cadastro de promotor</Text>
+        <Text style={[styles.white, styles.logoText]}>
+          Cadastro de promotor
+        </Text>
       </View>
       <ScrollView>
         <View style={[styles.formLogin]}>
-          <Input
-            style={[styles.mt10, styles.white]}
+          <TextInputMask
+            style={[styles.mt10, styles.white, styles.formLogin]}
+            type={'cpf'}
             errorMessage={errors.cpf}
-            placeholder="CPF"
+            value={inputs.cpf}
+            placeholder=" CPF"
             onChangeText={(text) => OnChangeInput(text, "cpf")}
           />
+
           <Input
             style={[styles.mt10, styles.white]}
             errorMessage={errors.nome}
             placeholder="Nome"
             onChangeText={(text) => OnChangeInput(text, "nome")}
           />
-          <Input
-            style={[styles.mt10, styles.white]}
+
+          <TextInputMask
+            style={[styles.mt10, styles.white, styles.formLogin]}
+            type={"cel-phone"}
+            options={{
+              maskType: "BRL",
+              withDDD: true,
+              dddMask: "(99) ",
+            }}
             errorMessage={errors.telefone}
-            placeholder="Telefone"
+            value={inputs.telefone}
+            placeholder=" Telefone"
             onChangeText={(text) => OnChangeInput(text, "telefone")}
           />
+
           <Input
             style={[styles.mt10, styles.white]}
             errorMessage={errors.email}
             placeholder="Email"
             onChangeText={(text) => OnChangeInput(text, "email")}
           />
-          <Input
-            style={[styles.mt10, styles.white]}
+          <TextInputMask
+            style={[styles.mt10, styles.white, styles.formLogin]}
+            type={"zip-code"}
             errorMessage={errors.cep}
-            placeholder="CEP"
+            placeholder=" CEP"
+            value={inputs.cep}
             onChangeText={(text) => OnChangeInput(text, "cep")}
           />
           <Input
@@ -146,7 +165,12 @@ export default function CadastroPromotor({ route, navigation }) {
                 width: 100,
               }}
               titleStyle={{ color: "grey" }}
-              onPress={() => navigation.navigate("ListaDeEventos", { login: login, refresh: false})}
+              onPress={() =>
+                navigation.navigate("ListaDeEventos", {
+                  login: login,
+                  refresh: false,
+                })
+              }
             />
           </View>
         </View>

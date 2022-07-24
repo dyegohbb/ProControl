@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import { TextInputMask } from "react-native-masked-text";
 
 const codigoDeCadastro = "abc";
 
@@ -85,10 +86,12 @@ export default function CadastroEmpresa({ navigation }) {
               secureTextEntry={true}
               onChangeText={(cod) => setCod(cod)}
             />
-            <Input
-              style={[styles.mt10, styles.white]}
+            <TextInputMask
+              style={[styles.mt10, styles.white, styles.formLogin]}
+              type={"cnpj"}
               errorMessage={errors.cnpj}
-              placeholder="CNPJ"
+              value={inputs.cnpj}
+              placeholder=" CNPJ"
               onChangeText={(text) => OnChangeInput(text, "cnpj")}
             />
             <Input
@@ -97,10 +100,17 @@ export default function CadastroEmpresa({ navigation }) {
               placeholder="Razão Social"
               onChangeText={(text) => OnChangeInput(text, "razao")}
             />
-            <Input
-              style={[styles.mt10, styles.white]}
+            <TextInputMask
+              style={[styles.mt10, styles.white, styles.formLogin]}
+              type={"cel-phone"}
+              options={{
+                maskType: "BRL",
+                withDDD: true,
+                dddMask: "(99) ",
+              }}
               errorMessage={errors.telefone}
-              placeholder="Telefone"
+              value={inputs.telefone}
+              placeholder=" Telefone"
               onChangeText={(text) => OnChangeInput(text, "telefone")}
             />
             <Input
@@ -109,10 +119,12 @@ export default function CadastroEmpresa({ navigation }) {
               placeholder="Email"
               onChangeText={(text) => OnChangeInput(text, "email")}
             />
-            <Input
-              style={[styles.mt10, styles.white]}
+            <TextInputMask
+              style={[styles.mt10, styles.white, styles.formLogin]}
+              type={"zip-code"}
               errorMessage={errors.cep}
-              placeholder="CEP"
+              placeholder=" CEP"
+              value={inputs.cep}
               onChangeText={(text) => OnChangeInput(text, "cep")}
             />
             <Input
