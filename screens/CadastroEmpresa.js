@@ -87,12 +87,13 @@ export default function CadastroEmpresa({ navigation }) {
               onChangeText={(cod) => setCod(cod)}
             />
             <TextInputMask
-              style={[styles.mt10, styles.white, styles.formLogin]}
+              style={[styles.mt10, styles.grey, styles.maskedInput]}
               type={"cnpj"}
               errorMessage={errors.cnpj}
               value={inputs.cnpj}
-              placeholder=" CNPJ"
+              placeholder="CNPJ"
               onChangeText={(text) => OnChangeInput(text, "cnpj")}
+              placeholderTextColor="#6a7280"
             />
             <Input
               style={[styles.mt10, styles.white]}
@@ -101,7 +102,7 @@ export default function CadastroEmpresa({ navigation }) {
               onChangeText={(text) => OnChangeInput(text, "razao")}
             />
             <TextInputMask
-              style={[styles.mt10, styles.white, styles.formLogin]}
+              style={[styles.mt10, styles.grey, styles.formLogin, styles.maskedInput]}
               type={"cel-phone"}
               options={{
                 maskType: "BRL",
@@ -112,7 +113,7 @@ export default function CadastroEmpresa({ navigation }) {
               value={inputs.telefone}
               placeholder=" Telefone"
               onChangeText={(text) => OnChangeInput(text, "telefone")}
-              mask={Masks.BRL_PHONE}
+              placeholderTextColor="#6a7280"
             />
             <Input
               style={[styles.mt10, styles.white]}
@@ -121,13 +122,13 @@ export default function CadastroEmpresa({ navigation }) {
               onChangeText={(text) => OnChangeInput(text, "email")}
             />
             <TextInputMask
-              style={[styles.mt10, styles.white, styles.formLogin]}
+              style={[styles.mt10, styles.grey, styles.formLogin, styles.maskedInput]}
               type={"zip-code"}
               errorMessage={errors.cep}
               placeholder=" CEP"
               value={inputs.cep}
               onChangeText={(text) => OnChangeInput(text, "cep")}
-              mask={Masks.ZIP_CODE}
+              placeholderTextColor="#6a7280"
             />
             <Input
               style={[styles.mt10, styles.white]}
