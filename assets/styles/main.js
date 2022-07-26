@@ -38,6 +38,18 @@ const styles = StyleSheet.create({
 
     dNone: { display: "none" },
 
+    maskedInput:{
+        width: 283,
+        fontSize: 17,
+        borderBottomColor:  '#6a7280',
+        borderBottomWidth: 1.5,
+        marginBottom: 15
+    },
+    
+    maskinput: {
+        fontSize: 45
+    },
+
     principal: {
         flex: 1,
         flexDirection: "column",
