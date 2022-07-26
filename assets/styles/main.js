@@ -1,3 +1,4 @@
+import { Row } from "native-base";
 import { StyleSheet, Dimensions } from "react-native";
 
 const styles = StyleSheet.create({
@@ -18,11 +19,17 @@ const styles = StyleSheet.create({
 
     mEnd20: { marginEnd: 20 },
 
+    mEnd10: { marginEnd: 10 },
+
     mStart20: { marginStart: 20 },
+
+    mStart10: { marginStart: 10 },
 
     width100: { width: 100 },
 
     grey: { color: "grey" },
+
+    greyInput: { color: "#6a7280" },
 
     white: { color: "white" },
 
@@ -33,6 +40,8 @@ const styles = StyleSheet.create({
     mt4: { marginTop: 4 },
 
     mt25: { marginTop: 25 },
+
+    mt50: { marginTop: 50 },
 
     fontBold: { fontWeight: "500" },
 
@@ -67,7 +76,6 @@ const styles = StyleSheet.create({
     eventoPrincipal: {
         backgroundColor: "#1f1c32",
         flex: 1,
-        padding: 20,
         flexDirection: "column"
       },
 
@@ -147,6 +155,20 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginTop: 0
     },
+
+    footer:{
+        borderTopWidth: 1,
+        paddingTop: 5,
+        borderTopColor: "white",
+        marginBottom: 5,
+        flexDirection: 'row',
+        justifyContent: "space-around"
+    },
+
+    iconsFooter:{
+        flexDirection: 'column',
+        alignItems: "center"
+    }
 
 });
 

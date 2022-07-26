@@ -34,6 +34,7 @@ export default function CadastroEmpresa({ navigation }) {
 
   const gerarError = (errorMessage, input) => {
     setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
+    console.log(errors)
   };
 
   async function validar(navigation) {
@@ -87,9 +88,9 @@ export default function CadastroEmpresa({ navigation }) {
               onChangeText={(cod) => setCod(cod)}
             />
             <TextInputMask
-              style={[styles.mt10, styles.grey, styles.maskedInput]}
+              style={[styles.mt10, styles.greyInput, styles.maskedInput]}
               type={"cnpj"}
-              errorMessage={errors.cnpj}
+              error
               value={inputs.cnpj}
               placeholder="CNPJ"
               onChangeText={(text) => OnChangeInput(text, "cnpj")}
@@ -102,7 +103,7 @@ export default function CadastroEmpresa({ navigation }) {
               onChangeText={(text) => OnChangeInput(text, "razao")}
             />
             <TextInputMask
-              style={[styles.mt10, styles.grey, styles.formLogin, styles.maskedInput]}
+              style={[styles.mt10, styles.greyInput, styles.formLogin, styles.maskedInput]}
               type={"cel-phone"}
               options={{
                 maskType: "BRL",
@@ -122,7 +123,7 @@ export default function CadastroEmpresa({ navigation }) {
               onChangeText={(text) => OnChangeInput(text, "email")}
             />
             <TextInputMask
-              style={[styles.mt10, styles.grey, styles.formLogin, styles.maskedInput]}
+              style={[styles.mt10, styles.greyInput, styles.formLogin, styles.maskedInput]}
               type={"zip-code"}
               errorMessage={errors.cep}
               placeholder=" CEP"

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function Login({ navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
@@ -39,18 +40,35 @@ function Login({ navigation }) {
         password: inputs.pw,
       })
         .then((response) => {
-          navigation.navigate("ListaDeEventos", { login: inputs.login, refresh: true });
+          navigation.navigate("ListaDeEventos", {
+            login: inputs.login,
+            refresh: true,
+          });
         })
         .catch((error) => {
           toggleDialog();
 
-          navigation.navigate("ListaDeEventos", { login: inputs.login, refresh: true });
+          navigation.navigate("ListaDeEventos", {
+            login: inputs.login,
+            refresh: true,
+          });
         });
     }
   }
 
   return (
-    <View style={[styles.principal, styles.pb100]}>
+    <View style={[styles.eventoPrincipal]}>
+      <TouchableOpacity
+        style={[styles.mt50, styles.mStart20]}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <MaterialCommunityIcons
+          name="keyboard-backspace"
+          size={30}
+          color="white"
+        />
+      </TouchableOpacity>
+      <View style={styles.principal}>
       <View>
         <Image
           source={require("../assets/img/logo.jpg")}
@@ -96,23 +114,11 @@ function Login({ navigation }) {
               titleStyle={{ color: "grey" }}
               onPress={() => CheckPw(inputs, navigation)}
             />
-            <Button
-              title="Voltar"
-              buttonStyle={{
-                borderColor: "#f4f4f4",
-                backgroundColor: "#f4f4f4",
-                borderRadius: 3,
-              }}
-              containerStyle={{
-                width: 100,
-              }}
-              titleStyle={{ color: "grey" }}
-              onPress={() => navigation.navigate("Home")}
-            />
           </View>
         </View>
       </View>
       <View style={{ backgroundColor: "aqua", alignItems: "center" }}></View>
+      </View>
     </View>
   );
 }

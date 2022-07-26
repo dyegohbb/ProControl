@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  Dimensions,
+  TouchableOpacity,
   ScrollView,
   ActivityIndicator,
 } from "react-native";
@@ -12,6 +12,7 @@ import styles from "../assets/styles/main";
 import FloatingButton from "../FloatingButton";
 import * as Location from "expo-location";
 import Axios from "axios";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ListaDeEventos({ route, navigation }) {
   const [evento, setEvento] = useState({});
@@ -84,16 +85,17 @@ export default function ListaDeEventos({ route, navigation }) {
 
   return (
     <View style={[styles.eventoPrincipal]}>
-      <View style={[styles.fRowSpaceBtw, styles.mt10, styles.zindex1]}>
-        <FloatingButton
-          onPressEditEvent={() => console.log("teste")}
-          onPressAddPromotor={() => console.log("teste")}
-          tipo={"evento"}
-          orientacao={"down"}
-          position={{ top: 5, right: 20 }}
+      <TouchableOpacity
+        style={[styles.mt50, styles.mStart20]}
+        onPress={() => console.log("abacate")}
+      >
+        <MaterialCommunityIcons
+          name="keyboard-backspace"
+          size={30}
+          color="white"
         />
-      </View>
-      <View style={[styles.alignItemsCenter, styles.mt25]}>
+      </TouchableOpacity>
+      <View style={[styles.alignItemsCenter]}>
         <Image
           source={require("../assets/img/logo.jpg")}
           style={styles.logoImage}
@@ -103,22 +105,46 @@ export default function ListaDeEventos({ route, navigation }) {
         <View style={[{ flex: 3 }, styles.alignItemsCenter]}>
           <Text style={[styles.white, styles.logoText]}>{evento.titulo}</Text>
           <Image source={evento.imgUrl} style={styles.eventoImage} />
-          <Text style={[styles.white, styles.logoText, styles.mt10]}>
+          <Text
+            style={[
+              styles.white,
+              styles.logoText,
+              styles.mt10,
+              styles.fontSize20,
+            ]}
+          >
             {evento.data}
           </Text>
         </View>
         <View>
-          <Text style={[styles.white, styles.logoText, styles.mt10]}>
+          <Text
+            style={[
+              styles.mStart10,
+              styles.mEnd10,
+              styles.white,
+              styles.logoText,
+              styles.mt10,
+              styles.fontSize20,
+              { textAlign: "center" },
+            ]}
+          >
             {evento.details}
           </Text>
         </View>
         <View style={[{ flex: 1 }, styles.alignItemsCenter]}>
-          <Text style={[styles.white, styles.logoText, styles.mt10]}>
-            {evento.rua}, {evento.numero}
-          </Text>
-          <Text style={[styles.white, styles.logoText]}>{evento.bairro}</Text>
-          <Text style={[styles.white, styles.logoText]}>
-            {evento.cidade} - {evento.estado}
+          <Text
+            style={[
+              styles.mStart10,
+              styles.mEnd10,
+              styles.white,
+              styles.logoText,
+              styles.mt10,
+              styles.fontSize20,
+              { textAlign: "center" },
+            ]}
+          >
+            {evento.rua}, {evento.numero}, {evento.bairro}, {evento.cidade} -{" "}
+            {evento.estado}
           </Text>
         </View>
         <View style={[{ flex: 3.7 }, styles.alignItemsCenter]}>
@@ -158,6 +184,31 @@ export default function ListaDeEventos({ route, navigation }) {
           />
         </View>
       </ScrollView>
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={styles.iconsFooter}
+          onPress={() => console.log("abacate")}
+        >
+          <MaterialCommunityIcons
+            name="calendar-edit"
+            size={30}
+            color="white"
+          />
+          <Text style={styles.white}>Editar Evento</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.iconsFooter}
+          onPress={() => console.log("abacate")}
+        >
+          <MaterialCommunityIcons
+            name="account-switch-outline"
+            size={30}
+            color="white"
+          />
+          <Text style={styles.white}>Trocar Promotor</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

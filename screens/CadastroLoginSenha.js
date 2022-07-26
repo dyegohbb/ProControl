@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Keyboard, ScrollView } from "react-native";
+import { Keyboard, TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function CadastroLoginSenha({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
@@ -20,13 +21,13 @@ export default function CadastroLoginSenha({ route, navigation }) {
     representante: "",
   });
   const [promotor, setPromotor] = useState({
-    cpf: '',
-    nome: '',
-    telefone: '',
-    email: '',
-    cep: '',
-    end: '',
-});
+    cpf: "",
+    nome: "",
+    telefone: "",
+    email: "",
+    cep: "",
+    end: "",
+  });
   const [inputs, setInputs] = useState({
     login: "",
     senha: "",
@@ -44,10 +45,19 @@ export default function CadastroLoginSenha({ route, navigation }) {
         setPromotor(campos);
         setEmpresa(campos);
       }
-      setTipo(tipo)
+      setTipo(tipo);
     }
   }, []);
 
+  const voltar = () => {
+    if(tipo == "empresa"){
+      navigation.navigate("CadastroEmpresa")
+    } else if(tipo == "promotor"){
+      navigation.navigate("CadastroPromotor")
+    } else{
+      navigation.navigate("Home")
+    }
+  }
   const toggleDialog = () => {
     setDialogOpen(!isOpenDialog);
   };
@@ -83,100 +93,112 @@ export default function CadastroLoginSenha({ route, navigation }) {
     });
 
     if (!error) {
-      let cadastro = {}
-      let url = "http://localhost:8080/"
-      if(tipo == "empresa"){
+      let cadastro = {};
+      let url = "http://localhost:8080/";
+      if (tipo == "empresa") {
         cadastro = {
-            login: inputs.login,
-            senha: inputs.senha,
-          }
-          url = url + "empresa/cadastro";
-      }else if(tipo == "promotor"){
+          login: inputs.login,
+          senha: inputs.senha,
+        };
+        url = url + "empresa/cadastro";
+      } else if (tipo == "promotor") {
         cadastro = {
-            login: inputs.login,
-            senha: inputs.senha,
-            promotor: promotor,
-            empresa: empresa
-          }
-          url = url + "promotor/cadastro";
+          login: inputs.login,
+          senha: inputs.senha,
+          promotor: promotor,
+          empresa: empresa,
+        };
+        url = url + "promotor/cadastro";
       }
       await Axios.post(url, cadastro)
-      .then((response) => {
-          navigation.navigate("Login")
-      })
-      .catch((error) => {
-          setDialogTitle('Erro')
-          setDialogText('OOPS! Ocorreu algum erro ao cadastrar ' + tipo + ', entre em contato com um administrador do sistema.')
+        .then((response) => {
+          navigation.navigate("Login");
+        })
+        .catch((error) => {
+          setDialogTitle("Erro");
+          setDialogText(
+            "OOPS! Ocorreu algum erro ao cadastrar " +
+              tipo +
+              ", entre em contato com um administrador do sistema."
+          );
           toggleDialog();
           console.log(error);
-      });
+        });
     }
   }
 
   return (
-    <View style={styles.principal}>
-      <View style={[styles.alignItemsCenter, styles.mt25]}>
-        <Image
-          source={require("../assets/img/logo.jpg")}
-          style={styles.logoImage}
+    <View style={styles.eventoPrincipal}>
+      <TouchableOpacity
+        style={[styles.mt50, styles.mStart20]}
+        onPress={() => voltar()}
+      >
+        <MaterialCommunityIcons
+          name="keyboard-backspace"
+          size={30}
+          color="white"
         />
-        <Text style={[styles.white, styles.logoText]}>Preencha seu login e senha</Text>
-      </View>
-
-      <ScrollView>
-        <View>
-          <View style={[styles.formLogin]}>
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.login}
-              placeholder="Login"
-              secureTextEntry={true}
-              onChangeText={(text) => OnChangeInput(text, "login")}
+      </TouchableOpacity>
+      <View style={styles.principal}>
+        <View style={[styles.alignItemsCenter, styles.mt25]}>
+          <Image
+            source={require("../assets/img/logo.jpg")}
+            style={styles.logoImage}
+          />
+          <Text style={[styles.white, styles.logoText]}>
+            Preencha seu login e senha
+          </Text>
+        </View>
+        <View style={[styles.formLogin]}>
+          <Input
+            style={[styles.mt10, styles.white]}
+            errorMessage={errors.login}
+            placeholder="Login"
+            onChangeText={(text) => OnChangeInput(text, "login")}
+          />
+          <Input
+            style={[styles.mt10, styles.white]}
+            errorMessage={errors.senha}
+            placeholder="Senha"
+            secureTextEntry={true}
+            onChangeText={(text) => OnChangeInput(text, "senha")}
+          />
+          <Dialog isVisible={isOpenDialog} onBackdropPress={toggleDialog}>
+            <Dialog.Title title={dialogTitle} />
+            <Text>{dialogText}</Text>
+          </Dialog>
+          <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
+            <Button
+              style={styles.mt25}
+              title="Cadastrar"
+              buttonStyle={{
+                borderColor: "#f4f4f4",
+                backgroundColor: "#f4f4f4",
+                borderRadius: 3,
+              }}
+              containerStyle={{
+                width: 100,
+              }}
+              titleStyle={{ color: "grey" }}
+              onPress={() => validar(navigation)}
             />
-            <Input
-              style={[styles.mt10, styles.white]}
-              errorMessage={errors.senha}
-              placeholder="Senha"
-              secureTextEntry={true}
-              onChangeText={(text) => OnChangeInput(text, "senha")}
+            <Button
+              style={styles.mt25}
+              title="Cancelar"
+              buttonStyle={{
+                borderColor: "#f4f4f4",
+                backgroundColor: "#f4f4f4",
+                borderRadius: 3,
+              }}
+              containerStyle={{
+                width: 100,
+              }}
+              titleStyle={{ color: "grey" }}
+              onPress={() => navigation.navigate("Home")}
             />
-            <Dialog isVisible={isOpenDialog} onBackdropPress={toggleDialog}>
-              <Dialog.Title title={dialogTitle} />
-              <Text>{dialogText}</Text>
-            </Dialog>
-            <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
-              <Button
-                style={styles.mt25}
-                title="Cadastrar"
-                buttonStyle={{
-                  borderColor: "#f4f4f4",
-                  backgroundColor: "#f4f4f4",
-                  borderRadius: 3,
-                }}
-                containerStyle={{
-                  width: 100,
-                }}
-                titleStyle={{ color: "grey" }}
-                onPress={() => validar(navigation)}
-              />
-              <Button
-                style={styles.mt25}
-                title="Cancelar"
-                buttonStyle={{
-                  borderColor: "#f4f4f4",
-                  backgroundColor: "#f4f4f4",
-                  borderRadius: 3,
-                }}
-                containerStyle={{
-                  width: 100,
-                }}
-                titleStyle={{ color: "grey" }}
-                onPress={() => navigation.navigate("Home")}
-              />
-            </View>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 }

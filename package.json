@@ -42,8 +42,10 @@
     "react-native-screens": "~3.11.1",
     "react-native-simple-toast": "^1.1.3",
     "react-native-social-fab": "^1.0.2",
+    "react-native-svg": "^12.4.1",
     "react-native-text-input-mask": "^3.1.4",
     "react-native-web": "0.17.7",
+    "react-native-webview": "^11.23.0",
     "terra-dropdown-button": "^1.29.1"
   },
   "devDependencies": {
