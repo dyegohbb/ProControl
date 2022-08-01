@@ -179,7 +179,7 @@ export default function ListaDeEventos({ route, navigation }) {
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.iconsFooter}
-          onPress={() => console.log("abacate")}
+          onPress={() => navigation.navigate("CadastroEvento")}
         >
           <MaterialCommunityIcons
             name="calendar-plus"
@@ -191,7 +191,7 @@ export default function ListaDeEventos({ route, navigation }) {
 
         <TouchableOpacity
           style={styles.iconsFooter}
-          onPress={() => console.log("teste")}
+          onPress={() => refresh()}
         >
           <MaterialCommunityIcons
             name="calendar-sync"
@@ -203,7 +203,7 @@ export default function ListaDeEventos({ route, navigation }) {
 
         <TouchableOpacity
           style={styles.iconsFooter}
-          onPress={() => console.log("abacate")}
+          onPress={() => navigation.navigate("CadastroPromotor")}
         >
           <Feather name="user-plus" size={30} color="white" />
           <Text style={styles.white}>Criar Promotor</Text>
@@ -211,7 +211,7 @@ export default function ListaDeEventos({ route, navigation }) {
 
         <TouchableOpacity
           style={styles.iconsFooter}
-          onPress={() => console.log("abacate")}
+          onPress={() => navigation.navigate("Login")}
         >
           <MaterialCommunityIcons name="logout" size={30} color="white" />
           <Text style={styles.white}>Sair</Text>

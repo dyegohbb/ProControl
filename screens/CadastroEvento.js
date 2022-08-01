@@ -164,7 +164,7 @@ export default function CadastroEvento({ route, navigation }) {
                   width: 100,
                 }}
                 titleStyle={{ color: "grey" }}
-                onPress={() => navigation.navigate("Home")}
+                onPress={() => navigation.navigate("ListaDeEventos")}
               />
             </View>
           </View>
