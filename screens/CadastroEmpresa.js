@@ -3,7 +3,6 @@ import { Keyboard, ScrollView } from "react-native";
 import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
-import Axios from "axios";
 import { TextInputMask } from "react-native-masked-text";
 
 const codigoDeCadastro = "abc";
@@ -90,7 +89,7 @@ export default function CadastroEmpresa({ navigation }) {
             <TextInputMask
               style={[styles.mt10, styles.greyInput, styles.maskedInput]}
               type={"cnpj"}
-              error
+              errorMessage={errors.cnpj}
               value={inputs.cnpj}
               placeholder="CNPJ"
               onChangeText={(text) => OnChangeInput(text, "cnpj")}

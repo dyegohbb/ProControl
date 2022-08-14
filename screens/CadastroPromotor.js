@@ -3,8 +3,6 @@ import { Keyboard, ScrollView } from "react-native";
 import { View } from "react-native";
 import { Input, Button, Image, Dialog, Text } from "react-native-elements";
 import styles from "../assets/styles/main";
-import Axios from "axios";
-import MaskInput, { Masks } from "react-native-mask-input";
 import { TextInputMask } from "react-native-masked-text";
 
 export default function CadastroPromotor({ route, navigation }) {
@@ -82,9 +80,9 @@ export default function CadastroPromotor({ route, navigation }) {
       <ScrollView>
         <View style={[styles.formLogin]}>
           <TextInputMask
-            style={[styles.mt10, styles.greyInput, styles.maskedInput]}
+            style={[styles.mt10, styles.greyInput, styles.formLogin, styles.maskedInput]}
             type={"cpf"}
-            error
+            errorMessage={errors.cpf}
             value={inputs.cpf}
             placeholder="CPF"
             onChangeText={(text) => OnChangeInput(text, "cpf")}
