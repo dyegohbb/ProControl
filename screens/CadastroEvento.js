@@ -18,6 +18,8 @@ export default function CadastroEvento({ route, navigation }) {
   const [dialogText, setDialogText] = useState("");
   const [login, setLogin] = useState({});
   const [isPromotorfetched, setPromotorFetched] = useState(false);
+  const [isEdit, setEdit] = useState(false);
+  const [eventoId, setEventoId] = useState("");
   const [promotores, setPromotores] = useState([
     { label: '', value: '' }
 ])
@@ -35,6 +37,8 @@ export default function CadastroEvento({ route, navigation }) {
   const [errors, setErrors] = useState({});
   const [date, setDate] = useState(new Date());
   const [dateView, setDateView] = useState(new Date());
+  const[evento, setEvento] = useState({});
+  const[promotor, setPromotor] = useState({});
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -56,14 +60,43 @@ export default function CadastroEvento({ route, navigation }) {
     showMode('date');
   };
 
+  let editar = false;
   useEffect(() => {
     if (route.params) {
         const { login } = route.params;
+        const { edit } = route.params;
+        const { evento } = route.params;
+
+        let dateFormatada = dateView.getDate().toString().padStart(2, "0") + "/" + (dateView.getMonth() + 1).toString().padStart(2, "0") + "/" + dateView.getFullYear()
+        
+        setDateView(dateFormatada)
+        setEvento(evento);
+        setEdit(edit)
         setLogin(login);
         fetchPromotores(login.codigoEmpresa);
+        if(edit){
+          updateInputs(evento)
+        }
+       
       }
   }, [])
   
+  const updateInputs = async (evento) => {
+    let i = {};
+
+    i.rua = evento.rua
+    i.titulo = evento.titulo
+    i.numero = evento.numero
+    i.cep = evento.cep
+    i.bairro = evento.bairro
+    i.cidade = evento.cidade
+    i.estado = evento.estado
+    i.details = evento.details
+    i.codigoPromotor = evento.codigoPromotor
+    console.log(evento)
+    setEventoId(evento.id)
+    setInputs(i)
+  }
 
   const fetchPromotores = async (codigo) =>{
     await axios.get("http://192.168.0.200:8080/api/v1/promotores/" + codigo).then(response => {
@@ -111,7 +144,7 @@ export default function CadastroEvento({ route, navigation }) {
         cidade: inputs.bairro,
         estado: inputs.estado,
       }
-
+      
       let cadastro ={
         codigoEmpresa: login.codigoEmpresa,
         codigoPromotor: inputs.codigoPromotor,
@@ -119,10 +152,10 @@ export default function CadastroEvento({ route, navigation }) {
         endereco: endereco,
         imgEmpresa: "url",
         data: dateView,
-        horario: null
+        detalhe: inputs.details
       }
-      console.log(cadastro)
-      await Axios.post("http://192.168.0.200:8080/api/v1/evento/empresa", cadastro)
+      if(isEdit){
+        await Axios.put("http://192.168.0.200:8080/api/v1/evento/empresa/" + eventoId, cadastro)
         .then((response) => {
           Toast.show("Evento cadastrado com sucesso", Toast.LONG);
           navigation.navigate("ListaDeEventos", { login: login, refresh: true });
@@ -131,6 +164,17 @@ export default function CadastroEvento({ route, navigation }) {
           Toast.show("Erro ao cadastrar evento", Toast.LONG);
           console.log(error);
         });
+      }else{
+        await Axios.post("http://192.168.0.200:8080/api/v1/evento/empresa", cadastro)
+        .then((response) => {
+          Toast.show("Evento cadastrado com sucesso", Toast.LONG);
+          navigation.navigate("ListaDeEventos", { login: login, refresh: true });
+        })
+        .catch((error) => {
+          Toast.show("Erro ao cadastrar evento", Toast.LONG);
+          console.log(error);
+        });
+      }
       setErrors({})
     }
   }
@@ -149,54 +193,62 @@ export default function CadastroEvento({ route, navigation }) {
         <View>
           <View style={[styles.formLogin]}>
             <Input
+              value={inputs.titulo}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.titulo}
               placeholder="Titulo"
               onChangeText={(text) => OnChangeInput(text, "titulo")}
             />
             <Input
+              value={inputs.cep}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.cep}
               placeholder="CEP"
               onChangeText={(text) => OnChangeInput(text, "cep")}
             />
             <Input
+            value={inputs.rua}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.rua}
               placeholder="Rua"
               onChangeText={(text) => OnChangeInput(text, "rua")}
             />
             <Input
+              value={inputs.numero}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.numero}
               placeholder="Numero da casa"
               onChangeText={(text) => OnChangeInput(text, "numero")}
             />
             <Input
+              value={inputs.bairro}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.bairro}
               placeholder="Bairro"
               onChangeText={(text) => OnChangeInput(text, "bairro")}
             />
             <Input
+              value={inputs.cidade}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.cidade}
               placeholder="Cidade"
               onChangeText={(text) => OnChangeInput(text, "cidade")}
             />
             <Input
+              value={inputs.estado}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.estado}
               placeholder="Estado"
               onChangeText={(text) => OnChangeInput(text, "estado")}
             />
             <Input
+              value={inputs.details}
               style={[styles.mt10, styles.white]}
               errorMessage={errors.details}
               placeholder="Detalhes do evento"
               onChangeText={(text) => OnChangeInput(text, "details")}
             />
-            {isPromotorfetched && 
+            {isPromotorfetched &&
             <RNPickerSelect
             style={pickerSelectStyles}
             errorMessage={errors.codigoPromotor}
@@ -206,7 +258,7 @@ export default function CadastroEvento({ route, navigation }) {
             />}
             <View>
               <Button onPress={showDatepicker} title="Show date picker!" />
-              <Text style={{color: 'red'}}>selected: {date.toLocaleString()}</Text>
+              <Text style={{color: 'red'}}>selected: {dateView.toLocaleString()}</Text>
             </View>
            
 

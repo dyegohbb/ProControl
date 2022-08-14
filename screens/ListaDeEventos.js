@@ -121,9 +121,6 @@ export default function ListaDeEventos({ route, navigation }) {
       idPromotor = login.codigoPromotor
       setLogin(login);
       setType(type);
-      console.log(login)
-      console.log(type)
-      console.log(issRefresh)
     } else {
       setDialogText(
         "OPS! Tivemos um problema, contate um administrador do sistema."
@@ -132,7 +129,6 @@ export default function ListaDeEventos({ route, navigation }) {
       toggleDialog();
     }
     if(issRefresh){
-      console.log(loginType)
       if(loginType == 'empresa'){
         refresh(idEmpresa, loginType);
       }else if(loginType == 'promotor'){
@@ -161,7 +157,6 @@ export default function ListaDeEventos({ route, navigation }) {
   async function refresh(id, type) {
     Toast.show("Atualizando lista de eventos...", Toast.LONG);
     let url = "http://192.168.0.200:8080/api/v1/eventos/" + type + "/"
-    console.log(url + id)
     await Axios.get(url + id)
       .then((response) => {
         let data = response.data
@@ -179,7 +174,7 @@ export default function ListaDeEventos({ route, navigation }) {
             bairro: evento.endereco.bairro,
             cidade: evento.endereco.cidade,
             estado: evento.endereco.estado,
-            details: evento.detalhes || "",
+            details: evento.detalhe || "",
             promotor: evento.codigoPromotor,
             latitude: evento.latitude,
             longitude: evento.longitude,
@@ -198,7 +193,6 @@ export default function ListaDeEventos({ route, navigation }) {
   }
 
   const goToEvento = (evento) => {
-    console.log(type)
     navigation.navigate("Evento", {
       evento: evento,
       login: login,
@@ -238,7 +232,7 @@ export default function ListaDeEventos({ route, navigation }) {
         {type == 'empresa' &&
         <TouchableOpacity
           style={styles.iconsFooter}
-          onPress={() => navigation.navigate('CadastroEvento', {login: login})}
+          onPress={() => navigation.navigate('CadastroEvento', {login: login, edit: false})}
         >
           <MaterialCommunityIcons
             name="calendar-plus"

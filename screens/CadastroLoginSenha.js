@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
 import Axios from "axios";
+import Toast from '../SimpleToast';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function CadastroLoginSenha({ route, navigation }) {
@@ -114,6 +115,22 @@ export default function CadastroLoginSenha({ route, navigation }) {
         }
         cadastro = empresaFim;
         url = url + "empresa";
+        await Axios.post(url, cadastro)
+        .then((response) => {
+          Toast.show("Empresa cadastrada com sucesso", Toast.LONG);
+          navigation.navigate("Home");
+        })
+        .catch((error) => {
+          setDialogTitle("Erro");
+          setDialogText(
+            "OOPS! Ocorreu algum erro ao cadastrar " +
+              tipo +
+              ", entre em contato com um administrador do sistema."
+          );
+          toggleDialog();
+          console.log(error);
+        });
+
       } else if (tipo == "promotor") {
         let promotorFim = {
           codigoEmpresa: empresa.codigoEmpresa,
@@ -128,8 +145,7 @@ export default function CadastroLoginSenha({ route, navigation }) {
 
         cadastro = promotorFim;
         url = url + "promotor";
-      }
-      await Axios.post(url, cadastro)
+        await Axios.post(url, cadastro)
         .then((response) => {
           navigation.navigate("ListaDeEventos", {
             login: empresa,
@@ -147,6 +163,7 @@ export default function CadastroLoginSenha({ route, navigation }) {
           toggleDialog();
           console.log(error);
         });
+      }
     }
   }
 

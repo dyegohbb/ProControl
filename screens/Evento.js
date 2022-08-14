@@ -27,7 +27,6 @@ export default function ListaDeEventos({ route, navigation }) {
 
   const [userLocation, setUserLocation] = useState({});
   _getLocationAsync = async () => {
-    console.log("teste");
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       console.error("Localização não permitida pelo usuário");
@@ -48,7 +47,6 @@ export default function ListaDeEventos({ route, navigation }) {
       imgEventoRealizado: "url",
       codigoEvento: evento.id
     }
-    console.log(objMock)
     await Axios.post("http://192.168.0.200:8080/api/v1/evento/promotor", {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -217,7 +215,14 @@ export default function ListaDeEventos({ route, navigation }) {
         {evento.eventoRealizado && 
         <View style={styles.alignItemsCenter}>
           <Text style={{color: 'green', fontSize: 20, marginTop: 25}}>Evento realizado na data: {evento.dataRealizacaoEvento}</Text>
-          <Text style={{color: 'green', fontSize: 18, marginTop: 0}}>Local de entrega:</Text>
+          <Text style={{color: 'green', fontSize: 18, marginTop: 5}}>Imagem da promoção: </Text>
+          <View style={[styles.alignItemsCenter]}>
+          <Image
+            source={require("../assets/img/promo.jpg")}
+            style={styles.eventoImage}
+          />
+          </View>
+          <Text style={{color: 'green', fontSize: 18, marginTop: 10}}>Local de entrega:</Text>
           <MapView
               style={maps.map}
               showsUserLocation={true}
@@ -244,7 +249,7 @@ export default function ListaDeEventos({ route, navigation }) {
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.iconsFooter}
-          onPress={() => console.log("abacate")}
+          onPress={() => navigation.navigate('CadastroEvento', {login: login, edit: true, evento: evento})}
         >
           <MaterialCommunityIcons
             name="calendar-edit"
@@ -252,18 +257,6 @@ export default function ListaDeEventos({ route, navigation }) {
             color="white"
           />
           <Text style={styles.white}>Editar Evento</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.iconsFooter}
-          onPress={() => console.log("abacate")}
-        >
-          <MaterialCommunityIcons
-            name="account-switch-outline"
-            size={30}
-            color="white"
-          />
-          <Text style={styles.white}>Trocar Promotor</Text>
         </TouchableOpacity>
       </View>}
     </View>

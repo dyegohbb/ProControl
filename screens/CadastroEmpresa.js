@@ -3,6 +3,7 @@ import { Keyboard, ScrollView } from "react-native";
 import { View } from "react-native";
 import { Text, Input, Button, Image, Dialog } from "react-native-elements";
 import styles from "../assets/styles/main";
+import Toast from '../SimpleToast';
 import { TextInputMask } from "react-native-masked-text";
 
 const codigoDeCadastro = "abc";
@@ -58,6 +59,7 @@ export default function CadastroEmpresa({ navigation }) {
         );
         toggleDialog();
       } else {
+        Toast.show("Seguindo para o próximo passo", Toast.LONG);
         navigation.navigate("CadastroLoginSenha", {
           tipo: "empresa",
           campos: inputs,
