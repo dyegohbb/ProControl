@@ -82,13 +82,13 @@ export default function CadastroPromotor({ route, navigation }) {
       <ScrollView>
         <View style={[styles.formLogin]}>
           <TextInputMask
-            style={[styles.mt10, styles.white, styles.formLogin]}
-            type={'cpf'}
-            errorMessage={errors.cpf}
+            style={[styles.mt10, styles.greyInput, styles.maskedInput]}
+            type={"cpf"}
+            error
             value={inputs.cpf}
-            placeholder=" CPF"
+            placeholder="CPF"
             onChangeText={(text) => OnChangeInput(text, "cpf")}
-            mask={Masks.BRL_CPF}
+            placeholderTextColor="#6a7280"
           />
 
           <Input
@@ -99,7 +99,7 @@ export default function CadastroPromotor({ route, navigation }) {
           />
 
           <TextInputMask
-            style={[styles.mt10, styles.white, styles.formLogin]}
+            style={[styles.mt10, styles.greyInput, styles.formLogin, styles.maskedInput]}
             type={"cel-phone"}
             options={{
               maskType: "BRL",
@@ -110,6 +110,7 @@ export default function CadastroPromotor({ route, navigation }) {
             value={inputs.telefone}
             placeholder=" Telefone"
             onChangeText={(text) => OnChangeInput(text, "telefone")}
+            placeholderTextColor="#6a7280"
           />
 
           <Input
@@ -119,13 +120,13 @@ export default function CadastroPromotor({ route, navigation }) {
             onChangeText={(text) => OnChangeInput(text, "email")}
           />
           <TextInputMask
-            style={[styles.mt10, styles.white, styles.formLogin]}
+            style={[styles.mt10, styles.greyInput, styles.formLogin, styles.maskedInput]}
             type={"zip-code"}
             errorMessage={errors.cep}
             placeholder=" CEP"
             value={inputs.cep}
             onChangeText={(text) => OnChangeInput(text, "cep")}
-            mask={Masks.ZIP_CODE}
+            placeholderTextColor="#6a7280"
           />
           <Input
             style={[styles.mt10, styles.white]}
