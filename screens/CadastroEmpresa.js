@@ -15,11 +15,11 @@ export default function CadastroEmpresa({ navigation }) {
   const [cod, setCod] = useState("");
   const [inputs, setInputs] = React.useState({
     cnpj: "",
-    razao: "",
+    razaoSocial: "",
     telefone: "",
     email: "",
     cep: "",
-    end: "",
+    endereco: "",
     representante: "",
   });
   const [errors, setErrors] = useState({});
@@ -98,9 +98,9 @@ export default function CadastroEmpresa({ navigation }) {
             />
             <Input
               style={[styles.mt10, styles.white]}
-              errorMessage={errors.razao}
+              errorMessage={errors.razaoSocial}
               placeholder="Razão Social"
-              onChangeText={(text) => OnChangeInput(text, "razao")}
+              onChangeText={(text) => OnChangeInput(text, "razaoSocial")}
             />
             <TextInputMask
               style={[styles.mt10, styles.greyInput, styles.formLogin, styles.maskedInput]}
@@ -133,9 +133,9 @@ export default function CadastroEmpresa({ navigation }) {
             />
             <Input
               style={[styles.mt10, styles.white]}
-              errorMessage={errors.end}
+              errorMessage={errors.endereco}
               placeholder="Endereço"
-              onChangeText={(text) => OnChangeInput(text, "end")}
+              onChangeText={(text) => OnChangeInput(text, "endereco")}
             />
             <Input
               style={[styles.mt10, styles.white]}

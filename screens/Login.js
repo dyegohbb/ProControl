@@ -5,13 +5,23 @@ import styles from "../assets/styles/main";
 import Axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function Login({ navigation }) {
+function Login({ route, navigation }) {
   const [isOpenDialog, setDialogOpen] = useState(false);
   const [inputs, setInputs] = useState({
     login: "",
     pw: "",
   });
   const [errors, setErrors] = useState({});
+  const[type, setType] = useState('');
+
+  useEffect(() => {
+    if (route.params) {
+      const { type } = route.params;
+      setType(type);
+    }else{
+      navigation.navigate('Home')
+    }
+  }, []);
 
   const OnChangeInput = (text, input) => {
     setInputs((prevState) => ({ ...prevState, [input]: text }));
@@ -35,24 +45,37 @@ function Login({ navigation }) {
     });
 
     if (!error) {
-      await Axios.post("http://localhost:8080/login", {
-        login: inputs.login,
-        password: inputs.pw,
-      })
-        .then((response) => {
-          navigation.navigate("ListaDeEventos", {
-            login: inputs.login,
-            refresh: true,
-          });
+      if(type == 'empresa'){
+        await Axios.post("http://192.168.0.200:8080/api/v1/auth/empresa", {
+          login: inputs.login,
+          password: inputs.pw,
         })
-        .catch((error) => {
-          toggleDialog();
-
-          navigation.navigate("ListaDeEventos", {
-            login: inputs.login,
-            refresh: true,
+          .then((response) => {
+            navigation.navigate("ListaDeEventos", {
+              login: response.data,
+              refresh: true,
+              type: "empresa"
+            });
+          })
+          .catch((error) => {
+            toggleDialog();
           });
-        });
+      } else if(type == 'promotor'){
+        await Axios.post("http://192.168.0.200:8080/api/v1/auth/promotor", {
+          login: inputs.login,
+          password: inputs.pw,
+        })
+          .then((response) => {
+            navigation.navigate("ListaDeEventos", {
+              login: response.data,
+              refresh: true,
+              type: "promotor"
+            });
+          })
+          .catch((error) => {
+            toggleDialog();
+          });
+      }
     }
   }
 

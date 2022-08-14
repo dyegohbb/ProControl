@@ -12,7 +12,7 @@ export default function CadastroPromotor({ route, navigation }) {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
   const [empresa, setEmpresa] = useState({});
-  const [login, setLogin] = useState("");
+  const [login, setLogin] = useState({});
   const [inputs, setInputs] = React.useState({
     cpf: "",
     nome: "",
@@ -25,13 +25,10 @@ export default function CadastroPromotor({ route, navigation }) {
 
   useEffect(() => {
     if (route.params) {
-      const { empresa } = route.params;
       const { login } = route.params;
 
-      setEmpresa(empresa);
+      setEmpresa(login);
       setLogin(login);
-      console.log(login);
-      console.log(empresa);
     } else {
       setDialogText(
         "OPS! Tivemos um problema, contate um administrador do sistema."
@@ -66,7 +63,7 @@ export default function CadastroPromotor({ route, navigation }) {
       navigation.navigate("CadastroLoginSenha", {
         tipo: "promotor",
         campos: inputs,
-        empresa: empresa,
+        empresa: login,
       });
     }
   }

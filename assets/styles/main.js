@@ -21,9 +21,13 @@ const styles = StyleSheet.create({
 
     mEnd10: { marginEnd: 10 },
 
+    mEnd50: { marginEnd: 50 },
+
     mStart20: { marginStart: 20 },
 
     mStart10: { marginStart: 10 },
+
+    mStart50: { marginStart: 50 },
 
     width100: { width: 100 },
 

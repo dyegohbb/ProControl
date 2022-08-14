@@ -14,18 +14,27 @@ export default function Home({ navigation }) {
       </View>
       <View style={[styles.groupHomeButtons, styles.fRowSpaceAround]}>
         <Button
-          title="Entrar"
+          title="Login Empresa"
           buttonStyle={styles.homeButton}
-          containerStyle={styles.width100}
+          containerStyle={[styles.width100, styles.mEnd50]}
           titleStyle={styles.grey}
           onPress={() =>
-            navigation.navigate("Login")
+            navigation.navigate("Login", {type: "empresa"})
           }
         />
         <Button
-          title="Cadastrar"
+          title="Login Promotor"
           buttonStyle={styles.homeButton}
-          containerStyle={styles.width100}
+          containerStyle={[styles.width100, styles.mEnd50, styles.mStart50]}
+          titleStyle={styles.grey}
+          onPress={() =>
+            navigation.navigate("Login", {type: "promotor"})
+          }
+        />
+        <Button
+          title="Cadastrar Empresa"
+          buttonStyle={styles.homeButton}
+          containerStyle={[styles.width100, styles.mStart50]}
           titleStyle={styles.grey}
           onPress={() => navigation.navigate("CadastroEmpresa")}
         />

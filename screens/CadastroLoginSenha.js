@@ -11,6 +11,7 @@ export default function CadastroLoginSenha({ route, navigation }) {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
   const [tipo, setTipo] = useState("");
+  const [ login, setLogin ] = useState({});
   const [empresa, setEmpresa] = useState({
     cnpj: "",
     razao: "",
@@ -34,16 +35,22 @@ export default function CadastroLoginSenha({ route, navigation }) {
   });
   const [errors, setErrors] = useState({});
 
+  Axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
+  Axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
+  Axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
   useEffect(() => {
     if (route.params) {
       const { tipo } = route.params;
       const { campos } = route.params;
       const { empresa } = route.params;
+
       if (tipo == "empresa") {
         setEmpresa(campos);
       } else if (tipo == "promotor") {
         setPromotor(campos);
-        setEmpresa(campos);
+        setEmpresa(empresa);
       }
       setTipo(tipo);
     }
@@ -94,25 +101,41 @@ export default function CadastroLoginSenha({ route, navigation }) {
 
     if (!error) {
       let cadastro = {};
-      let url = "http://localhost:8080/";
+
+      let url = "http://192.168.0.200:8080/api/v1/";
       if (tipo == "empresa") {
-        cadastro = {
+        let empresaFim = {
+          razaoSocial: empresa.razaoSocial,
+          cnpj: empresa.cnpj,
+          telefone: empresa.telefone,
+          endereco: empresa.endereco,
           login: inputs.login,
-          senha: inputs.senha,
-        };
-        url = url + "empresa/cadastro";
+          password: inputs.senha
+        }
+        cadastro = empresaFim;
+        url = url + "empresa";
       } else if (tipo == "promotor") {
-        cadastro = {
+        let promotorFim = {
+          codigoEmpresa: empresa.codigoEmpresa,
+          cpf: promotor.cpf,
+          nome: promotor.nome,
+          telefone: promotor.telefone,
+          email: promotor.email,
+          endereco: promotor.end,
           login: inputs.login,
-          senha: inputs.senha,
-          promotor: promotor,
-          empresa: empresa,
-        };
-        url = url + "promotor/cadastro";
+          password: inputs.senha
+        }
+
+        cadastro = promotorFim;
+        url = url + "promotor";
       }
       await Axios.post(url, cadastro)
         .then((response) => {
-          navigation.navigate("Login");
+          navigation.navigate("ListaDeEventos", {
+            login: empresa,
+            refresh: false,
+            type: "empresa"
+          });
         })
         .catch((error) => {
           setDialogTitle("Erro");

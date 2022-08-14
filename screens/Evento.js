@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  EventSubscriptionVendor,
 } from "react-native";
 import { Input, Button, Image, Dialog, Text } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
@@ -19,6 +20,10 @@ export default function ListaDeEventos({ route, navigation }) {
   const [endereco, setEndereco] = useState("");
   const [eventLocation, setEventLocation] = useState({});
   const [loadingE, setLoadingE] = useState(true);
+  const [login, setLogin] = useState({});
+  const [geoCodeError, setGeoCodeError] = useState(false);
+  const [ type, setType] = useState('');
+  
 
   const [userLocation, setUserLocation] = useState({});
   _getLocationAsync = async () => {
@@ -31,22 +36,32 @@ export default function ListaDeEventos({ route, navigation }) {
 
   async function entregarEvento() {
     let location = await Location.getCurrentPositionAsync({});
+    let currentDate = new Date();
+    let dataFormatada = currentDate.getDate().toString().padStart(2, "0") + "/" + (currentDate.getMonth() + 1).toString().padStart(2, "0") + "/" + currentDate.getFullYear()
+    let horaFormatada = currentDate.getHours().toString().padStart(2,"0") + ":" + currentDate.getMinutes().toString().padStart(2,"0")
 
-    await Axios.post("http://localhost:8080/evento/" + evento.id, {
-      localizacao: location,
-      dataDeEntrega: new Date(),
+    let objMock= {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      dataRealizacaoEvento: dataFormatada,
+      horarioRealizacaoEvento: horaFormatada,
+      imgEventoRealizado: "url",
+      codigoEvento: evento.id
+    }
+    console.log(objMock)
+    await Axios.post("http://192.168.0.200:8080/api/v1/evento/promotor", {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      dataRealizacaoEvento: dataFormatada,
+      horarioRealizacaoEvento: horaFormatada,
+      imgEventoRealizado: "url",
+      codigoEvento: evento.id
     })
       .then((response) => {
-        navigation.navigate("Login");
+        navigation.navigate("ListaDeEventos", {refresh: true});
       })
       .catch((error) => {
         console.log(error.message);
-        console.log({
-          localizacao: location,
-          dataDeEntrega: new Date().toLocaleString("pt-BR", {
-            timeZone: "America/Recife",
-          }),
-        });
       });
   }
 
@@ -54,6 +69,11 @@ export default function ListaDeEventos({ route, navigation }) {
     _getLocationAsync();
     if (route.params) {
       const { evento } = route.params;
+      const { login } = route.params
+      const { type } = route.params
+      
+      setType(type)
+      setLogin(login);
       setEvento(evento);
       let end =
         evento.rua +
@@ -77,6 +97,8 @@ export default function ListaDeEventos({ route, navigation }) {
           setLoadingE(false);
         } catch (e) {
           console.log(e.message);
+          setGeoCodeError(true)
+          setLoadingE(false)
         }
       };
       attempGeocode().catch(console.error);
@@ -87,7 +109,11 @@ export default function ListaDeEventos({ route, navigation }) {
     <View style={[styles.eventoPrincipal]}>
       <TouchableOpacity
         style={[styles.mt50, styles.mStart20]}
-        onPress={() => console.log("abacate")}
+        onPress={() => navigation.navigate("ListaDeEventos", {
+          login:login,
+          refresh: true,
+          type: "empresa"
+        })}
       >
         <MaterialCommunityIcons
           name="keyboard-backspace"
@@ -149,6 +175,7 @@ export default function ListaDeEventos({ route, navigation }) {
         </View>
         <View style={[{ flex: 3.7 }, styles.alignItemsCenter]}>
           {!loadingE ? (
+            !geoCodeError && 
             <MapView
               style={maps.map}
               showsUserLocation={true}
@@ -173,8 +200,11 @@ export default function ListaDeEventos({ route, navigation }) {
               <ActivityIndicator size="large" color="#0000ff" />
             </View>
           )}
+          {geoCodeError && <Text style={{color: 'red', fontSize: 20}}>Erro ao localizar endereço {type}</Text>}
         </View>
-        <View style={[styles.groupHomeButtons, styles.fRowSpaceCenter]}>
+        
+        {!evento.eventoRealizado && type == 'promotor' &&
+          <View style={[styles.groupHomeButtons, styles.fRowSpaceCenter]}>
           <Button
             title="Entregar"
             buttonStyle={styles.homeButton}
@@ -182,8 +212,35 @@ export default function ListaDeEventos({ route, navigation }) {
             titleStyle={styles.grey}
             onPress={() => entregarEvento()}
           />
+        </View>}
+
+        {evento.eventoRealizado && 
+        <View style={styles.alignItemsCenter}>
+          <Text style={{color: 'green', fontSize: 20, marginTop: 25}}>Evento realizado na data: {evento.dataRealizacaoEvento}</Text>
+          <Text style={{color: 'green', fontSize: 18, marginTop: 0}}>Local de entrega:</Text>
+          <MapView
+              style={maps.map}
+              showsUserLocation={true}
+              initialRegion={{
+                latitude: Number(evento.latitude),
+                longitude: Number(evento.longitude),
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001,
+              }}
+            >
+              <Marker
+                coordinate={{
+                  latitude: Number(evento.latitude),
+                  longitude: Number(evento.longitude),
+                  latitudeDelta: 0.0022,
+                  longitudeDelta: 0.0021,
+                }}
+              />
+            </MapView>
         </View>
+        }
       </ScrollView>
+      {!evento.eventoRealizado && type == 'empresa' && 
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.iconsFooter}
@@ -208,7 +265,7 @@ export default function ListaDeEventos({ route, navigation }) {
           />
           <Text style={styles.white}>Trocar Promotor</Text>
         </TouchableOpacity>
-      </View>
+      </View>}
     </View>
   );
 }
